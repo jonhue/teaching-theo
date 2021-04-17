@@ -13,8 +13,8 @@ _I'll continuously update and extend these resources as the course progresses._
 
 ## English
 
-1. Topic. [**Handout**](https://jonhue.github.io/teaching-dwt-rev/handout-1-en.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/1-en.pdf).
+1. Topic. [Handout](https://jonhue.github.io/teaching-theo/handout-1-en.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/1-en.pdf).
 
 ## Deutsch
 
-1. Thema. [**Handout**](https://jonhue.github.io/teaching-dwt-rev/handout-1-de.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/1-de.pdf).
+1. Thema. [Handout](https://jonhue.github.io/teaching-theo/handout-1-de.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/1-de.pdf).
