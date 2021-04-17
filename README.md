@@ -1,19 +1,20 @@
 ---
 layout: primer_without_heading
-title: Publicly share LaTeX sources
+title: Theoretical Computer Science
 ---
 
-# Publicly share LaTeX sources
+# Theoretical Computer Science
 
-1. Clone this template
-2. [Setup GitHub Pages deployments](https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-create-ssh-deploy-key)
-3. List all `.tex` files you want to compile in `.github/workflows/publish.yml`
-4. Enable GitHub Pages at the root directory in your `master` branch
+Here you'll find learning resources on the fundamentals of Theoretical Computer Science.
 
-From now on, the `master` branch will host your deployed files while you commit your changes to `sources`.
+All of these resources are based on an introductory course taught by [Javier Esparza]() at TUM in the summer term of 2021.
 
-You may do additional setup work in `scripts/setup.sh`.
+_I'll continuously update and extend these resources as the course progresses._
 
-## Documents
+## English
 
-* [example](https://jonhue.github.io/latex/example.pdf)
+1. Topic. [**Handout**](https://jonhue.github.io/teaching-dwt-rev/handout-1-en.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/1-en.pdf).
+
+## Deutsch
+
+1. Thema. [**Handout**](https://jonhue.github.io/teaching-dwt-rev/handout-1-de.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/1-de.pdf).
