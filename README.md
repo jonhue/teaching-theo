@@ -7,7 +7,7 @@ title: Theoretical Computer Science
 
 Here you'll find learning resources on the fundamentals of Theoretical Computer Science.
 
-All of these resources are based on an introductory course taught by [Javier Esparza]() at TUM in the summer term of 2021.
+All of these resources are based on an introductory course taught by [Javier Esparza](https://www7.in.tum.de/~esparza/) at TUM in the summer term of 2021.
 
 _I'll continuously update and extend these resources as the course progresses._
 
