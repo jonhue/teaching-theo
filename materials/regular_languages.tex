@@ -1,0 +1,142 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{default}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{default} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+  \setbeamertemplate{footline}[frame number]
+  \setbeamertemplate{itemize items}[circle]
+  \setbeamertemplate{theorems}[numbered]
+  \setbeamercolor*{structure}{bg=white,fg=blue}
+  \setbeamerfont{block title}{size=\normalsize}
+}
+
+% \newtheorem{proposition}[theorem]{Proposition}
+% \theoremstyle{definition}
+% \newtheorem{algorithm}[theorem]{Algorithm}
+% \newtheorem{idea}[theorem]{Idea}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{aligned-overset}
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{csquotes}
+% \usepackage{multicol}
+% \usepackage{stmaryrd}
+\usepackage{tabularx}
+
+% \renewcommand\tabularxcolumn[1]{m{#1}}
+% \newcolumntype{R}{>{\raggedleft\arraybackslash}X}=
+
+\newcommand\logeq{\mathrel{\vcentcolon\Leftrightarrow}}
+\def\code#1{\texttt{\frenchspacing#1}}
+\def\padding{\vspace{0.5cm}}
+\def\spadding{\vspace{0.25cm}}
+\def\b{\textcolor{blue}}
+\def\r{\textcolor{red}}
+\def\g#1{{\usebeamercolor[fg]{block title example}{#1}}}
+
+% fix for \pause in align
+\makeatletter
+\let\save@measuring@true\measuring@true
+\def\measuring@true{%
+  \save@measuring@true
+  \def\beamer@sortzero##1{\beamer@ifnextcharospec{\beamer@sortzeroread{##1}}{}}%
+  \def\beamer@sortzeroread##1<##2>{}%
+  \def\beamer@finalnospec{}%
+}
+\makeatother
+
+\title[Theoretical Computer Science]{Theoretical Computer Science \\ Regular Languages}
+\author{Jonas Hübotter}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+ \tableofcontents[subsectionstyle=hide, subsubsectionstyle=hide]
+\end{frame}
+% \AtBeginSection[]
+%   {
+%      \begin{frame}[allowframebreaks]{Plan}
+%      \tableofcontents[currentsection, sectionstyle=show/hide, hideothersubsections]
+%      \end{frame}
+%   }
+
+\section{Overview}
+
+\begin{frame}{Overview}
+    \begin{block}{Representations of regular languages}\pause
+        \begin{itemize}
+            \item Right-Linear Grammars\pause
+            \item Deterministic Finite Automaton (DFA)\pause
+            \item Nondeterministic Finite Automaton (NFA)\pause
+            \item $\epsilon$-NFA\pause
+            \item Regular Expression
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\section{Deterministic Finite Automaton (DFA)}
+
+\begin{frame}{DFA}
+    \begin{definition}
+        A \b{deterministic finite automaton (DFA)} $M = (Q, \Sigma, \delta, q_0, F)$\pause consists of
+        \begin{itemize}
+            \item a finite set of \b{states} $Q$\pause;
+            \item a (finite) \b{alphabet} $\Sigma$\pause;
+            \item a total \b{transition function} $\delta: Q \times \Sigma \to Q$\pause;
+            \item an \b{initial state} $q_0 \in Q$\pause; and
+            \item a set of \b{terminal (accepting) states} $F \subseteq Q$.
+        \end{itemize}
+    \end{definition}
+\end{frame}
+
+\begin{frame}{DFA}
+    \begin{definition}
+        The \b{induced transition function} $\hat{\delta}$ of a DFA $M$ is defined by\pause
+        \begin{align*}
+            \hat{\delta}(q, \epsilon) &= q\pause\\
+            \hat{\delta}(q, aw) &= \hat{\delta}(\delta(q,a),w), a \in \Sigma, w \in \Sigma^*.
+        \end{align*}\pause
+        The language \b{accepted} by $M$ is $L(M) = \{w \in \Sigma^* \mid \hat{\delta}(q_0, w) \in F\}$.
+    \end{definition}
+\end{frame}
+
+\section{Nondeterministic Finite Automaton (NFA)}
+
+\begin{frame}{NFA}
+    \begin{definition}
+        A \b{nondeterministic finite automaton (NFA)} $N = (Q, \Sigma, \delta, q_0, F)$\pause consists of
+        \begin{itemize}
+            \item $Q, \Sigma, q_0, F$ as defined for DFAs\pause; and
+            \item a (partial) \b{transition function} $\delta: Q \times \Sigma \to 2^Q$.
+        \end{itemize}
+    \end{definition}
+\end{frame}
+
+\begin{frame}{NFA}
+    \begin{definition}
+        The \b{induced transition function} $\hat{\bar{\delta}}$ of a NFA $N$ is defined analogously to $\hat{\delta}$ where\pause
+        \begin{align*}
+            \bar{\delta}: 2^Q \times \Sigma \to 2^Q, (S, a) \mapsto \bigcup_{q \in S} \delta(q, a).
+        \end{align*}\pause
+        The language \b{accepted} by $N$ is $L(N) = \{w \in \Sigma^* \mid \hat{\bar{\delta}}(\{q_0\}, w) \cap F \neq \emptyset\}$.
+    \end{definition}
+\end{frame}
+
+\end{document}

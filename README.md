@@ -11,10 +11,6 @@ All of these resources are based on an introductory course taught by [Javier Esp
 
 _I'll continuously update and extend these resources as the course progresses._
 
-## English
-
-1. Topic. [Handout](https://jonhue.github.io/teaching-theo/handout-1-en.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/1-en.pdf).
-
-## Deutsch
-
-1. Thema. [Handout](https://jonhue.github.io/teaching-theo/handout-1-de.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/1-de.pdf).
+1. Languages and Grammars. [Handout](https://jonhue.github.io/teaching-theo/handout-languages_and_grammars.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/languages_and_grammars.pdf).
+2. Regular Languages (in progress). [Handout](https://jonhue.github.io/teaching-theo/handout-regular_languages.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/regular_languages.pdf).
+3. Decidability and Computability (in progress). [Handout](https://jonhue.github.io/teaching-theo/handout-decidability_and_computability.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/decidability_and_computability.pdf).

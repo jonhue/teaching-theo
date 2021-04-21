@@ -1,0 +1,167 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{default}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{default} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+  \setbeamertemplate{footline}[frame number]
+  \setbeamertemplate{itemize items}[circle]
+  \setbeamertemplate{theorems}[numbered]
+  \setbeamercolor*{structure}{bg=white,fg=blue}
+  \setbeamerfont{block title}{size=\normalsize}
+}
+
+% \newtheorem{proposition}[theorem]{Proposition}
+% \theoremstyle{definition}
+% \newtheorem{algorithm}[theorem]{Algorithm}
+% \newtheorem{idea}[theorem]{Idea}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{aligned-overset}
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{csquotes}
+% \usepackage{multicol}
+% \usepackage{stmaryrd}
+\usepackage{tabularx}
+
+% \renewcommand\tabularxcolumn[1]{m{#1}}
+% \newcolumntype{R}{>{\raggedleft\arraybackslash}X}=
+
+\newcommand\logeq{\mathrel{\vcentcolon\Leftrightarrow}}
+\def\code#1{\texttt{\frenchspacing#1}}
+\def\padding{\vspace{0.5cm}}
+\def\spadding{\vspace{0.25cm}}
+\def\b{\textcolor{blue}}
+\def\r{\textcolor{red}}
+\def\g#1{{\usebeamercolor[fg]{block title example}{#1}}}
+
+% fix for \pause in align
+\makeatletter
+\let\save@measuring@true\measuring@true
+\def\measuring@true{%
+  \save@measuring@true
+  \def\beamer@sortzero##1{\beamer@ifnextcharospec{\beamer@sortzeroread{##1}}{}}%
+  \def\beamer@sortzeroread##1<##2>{}%
+  \def\beamer@finalnospec{}%
+}
+\makeatother
+
+\title[Theoretical Computer Science]{Theoretical Computer Science \\ Languages and Grammars}
+\author{Jonas Hübotter}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+ \tableofcontents[subsectionstyle=hide, subsubsectionstyle=hide]
+\end{frame}
+% \AtBeginSection[]
+%   {
+%      \begin{frame}[allowframebreaks]{Plan}
+%      \tableofcontents[currentsection, sectionstyle=show/hide, hideothersubsections]
+%      \end{frame}
+%   }
+
+\section{Formal Languages}
+
+\begin{frame}{Formal Languages}
+    \begin{definition}
+        \begin{itemize}
+            \item The \b{alphabet} $\Sigma$ is a finite set of symbols.\pause
+            \item A finite sequence of symbols is called a \b{word}.\pause
+            \item $\epsilon$ is the \b{empty word}.\pause
+            \item $\Sigma^*$ is the set of all words over an alphabet $\Sigma$.\pause
+            \item $L \subseteq \Sigma^*$ is called a \b{(formal) language}.
+        \end{itemize}.
+    \end{definition}\pause
+    \begin{definition}[Operations on words]
+        \begin{itemize}
+            \item $|w|$ is the \b{length} of word $w$.\pause
+            \item $uv$ is the \b{concatenation} of two words $u, v$.\pause
+            \item $w^0 = \epsilon, w^{n+1} = ww^n$ defines \b{repetition} of a word $w$.
+        \end{itemize}
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Operations on Formal Languages}
+    \begin{definition}
+        Let $A$ and $B$ be formal languages.
+        \begin{itemize}
+            \item $AB = \{uv \mid u \in A, v \in B\}$ (\b{concatenation}).\pause
+            \item $A^0 = \{\epsilon\}, A^{n+1} = AA^n$ (\b{repetition}).\pause
+            \item $A^* = \bigcup_{n \in \mathbb{N}_0} A^n$.\pause
+            \item $A^+ = AA^* = \bigcup_{n \in \mathbb{N}} A^n$.
+        \end{itemize}.
+    \end{definition}
+\end{frame}
+
+\section{Grammars}
+
+\begin{frame}{Grammars}
+    \begin{definition}
+        A \b{grammar} is a 4-tuple $G = (V, \Sigma, P, S)$\pause where
+        \begin{itemize}
+            \item $V$ is a finite set of \b{non-terminals} (or \b{variables})\pause;
+            \item $\Sigma$ is an alphabet whose symbols are called \b{terminals}\pause;
+            \item $P \subseteq (V \cup \Sigma)^* \times (V \cup \Sigma)^*$ is a set of \b{productions}\pause; and
+            \item $S \in V$ is the \b{initial variable}.
+        \end{itemize}
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Grammars}
+    \begin{definition}[Derivation]
+        A grammar induces a \b{derivation relation} $\rightarrow_G$ on words over $V \cup \Sigma$:\pause
+        \begin{align*}
+            &\forall \alpha, \alpha' \in (V \cup \Sigma)^*.\ \alpha \rightarrow_G \alpha' \logeq \exists \beta \to \beta' \in P.\\
+            &\alpha = \alpha_1\beta\alpha_2 \text{ and } \alpha' = \alpha_1\beta'\alpha_2.
+        \end{align*}\pause
+        A \b{derivation} of $\alpha_n$ from $\alpha_1$ is denoted by $\alpha_1 \rightarrow_G \dots \rightarrow_G \alpha_n$.
+    \end{definition}\pause
+    \begin{definition}[Language of a Grammar]
+        Given the derivation of $\alpha_n$ from $\alpha_1$, $G$ \b{produces} $\alpha_n$ if $\alpha_1 = S$ and $\alpha_n \in \Sigma^*$.\pause\par
+        The \b{language} of $G$ $L(G)$ is the set of all words produced by $G$.
+    \end{definition}
+\end{frame}
+
+\section{Chomsky-Hierarchy}
+
+\begin{frame}{Chomsky-Hierarchy}
+    \begin{definition}
+        A grammar $G$ is of\pause
+        \begin{itemize}
+            \item \b{Type 0} always;\pause
+            \item \b{Type 1 (context-sensitive)} $\forall \alpha \to \beta \in P\setminus\{S \to \epsilon\}.\ |\alpha| \leq |\beta|$;\pause
+            \item \b{Type 2 (context-free)} if of type 1 and $\forall \alpha \to \beta \in P.\ \alpha \in V$;\pause
+            \item \b{Type 3 (right-linear)} if of type 2 and $\forall \alpha \to \beta \in P\setminus\{S \to \epsilon\}.\ \beta \in \Sigma \cup \Sigma V$.
+        \end{itemize}
+    \end{definition}
+\end{frame}
+
+\section{Word problem}
+
+\begin{frame}{Word problem}
+    \begin{definition}[Word problem]
+        Given: a grammar $G$, a word $w \in \Sigma^*$\par
+        Question: $w \in L(G)$?
+    \end{definition}\pause\padding
+    Automata are used to solve the word problem. Depending on the type of the grammar different automata are used.\par
+    For example, (Non-)Deterministic Finite Automata are used for right-linear grammars (regular languages) while Pushdown Automata are used for context-free grammars.
+\end{frame}
+
+\end{document}

@@ -1,0 +1,226 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{default}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{default} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+  \setbeamertemplate{footline}[frame number]
+  \setbeamertemplate{itemize items}[circle]
+  \setbeamertemplate{theorems}[numbered]
+  \setbeamercolor*{structure}{bg=white,fg=blue}
+  \setbeamerfont{block title}{size=\normalsize}
+  \setbeamertemplate{frametitle continuation}{}
+}
+
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{idea}[theorem]{Idea}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{aligned-overset}
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{csquotes}
+\usepackage{multicol}
+\usepackage{stmaryrd}
+\usepackage{tabularx}
+
+\renewcommand\tabularxcolumn[1]{m{#1}}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\def\code#1{\texttt{\frenchspacing#1}}
+\def\padding{\vspace{0.5cm}}
+\def\spadding{\vspace{0.25cm}}
+\def\b{\textcolor{blue}}
+\def\r{\textcolor{red}}
+\def\g#1{{\usebeamercolor[fg]{block title example}{#1}}}
+
+% fix for \pause in align
+\makeatletter
+\let\save@measuring@true\measuring@true
+\def\measuring@true{%
+  \save@measuring@true
+  \def\beamer@sortzero##1{\beamer@ifnextcharospec{\beamer@sortzeroread{##1}}{}}%
+  \def\beamer@sortzeroread##1<##2>{}%
+  \def\beamer@finalnospec{}%
+}
+\makeatother
+
+\title[Theoretical Computer Science]{Theoretical Computer Science}
+\author{Jonas Hübotter}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Uncomment these lines for an automatically generated outline.
+\begin{frame}{Outline}
+ \tableofcontents[subsectionstyle=hide, subsubsectionstyle=hide]
+\end{frame}
+% \AtBeginSection[]
+%   {
+%      \begin{frame}
+%      \frametitle{Plan}
+%      \tableofcontents[currentsection, sectionstyle=show/hide, hideothersubsections]
+%      \end{frame}
+%   }
+
+\section{Decidability and Computability}
+
+\subsection{Problems}
+
+\begin{frame}{Problems}
+
+Given problem $A \subseteq \Sigma^*$.\spadding
+
+\begin{definition}
+$x$ is an \b{instance} of $A$ if $x \in \Sigma^*$.\par
+$x$ is a \b{solution} to $A$ if $x \in A$.
+\end{definition}
+
+\end{frame}
+
+\subsection{Decidability}
+
+\begin{frame}{Decidability}
+
+\begin{definition}
+The \b{characteristic function} of a problem $A$ is given as
+\begin{align*}
+    \chi_A(x) = \begin{cases}
+                    1 & \text{if}\ x \in A \\
+                    0 & \text{otherwise}
+                \end{cases}.
+\end{align*}
+\end{definition}
+
+\begin{definition}
+A problem $A$ is \b{decidable} if its characteristic function is computable.
+\end{definition}
+
+\end{frame}
+
+\section{Problems}
+
+\subsection{Undecidable problems}
+
+\begin{frame}[allowframebreaks]{Undecidable problems}
+
+\begin{block}{Special Halting Problem}
+$K = \{w \in \{0,1\}^* \mid M_w[w]\downarrow\}$
+\end{block}
+
+\begin{block}{General Halting Problem}
+$H = \{w\#x \mid w,x \in \{0,1\}^* \land M_w[x]\downarrow\}$
+\end{block}
+
+\begin{block}{Halting Problem on an empty tape}
+$H_0 = \{w \in \{0,1\}^* \mid M_w[\epsilon]\downarrow\}$
+\end{block}
+
+\begin{block}{Post's Correspondence Problem (PCP)}
+given: finite sequence $(x_1, y_1), \ldots, (x_k, y_k)$ where $x_i,y_i \in \Sigma^+$\par
+problem: is there a sequence of indices $i_1,\ldots,i_n \in [k], n > 0$ such that $x_{i_1} \dots x_{i_n} = y_{i_1} \dots y_{i_n}$?
+\end{block}
+
+\framebreak
+
+\begin{block}{CFG problems}
+Let $G, G_1, G_2$ be CFGs.
+\begin{itemize}
+    \item $L(G_1) \cap L(G_2) = \emptyset$?
+    \item $|L(G_1) \cap L(G_2)| = \infty$?
+    \item $L(G_1) \cap L(G_2)$ context-free?
+    \item $L(G_1) \subseteq L(G_2)$?
+    \item $L(G_1) = L(G_2)$?
+    \item $G$ ambiguous?
+    \item $G$ regular?
+    \item $G$ deterministic?
+    \item for some regular expression $\alpha$, $L(G) = L(\alpha)$?
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\subsection{NP-complete problems}
+
+\begin{frame}[allowframebreaks]{NP-complete problems}
+
+\begin{block}{SAT}
+given: propositional formula $F$\par
+problem: is $F$ satisfiable?+-
+\end{block}
+
+\begin{block}{CNF-SAT}
+given: propositional formula $F$ in $k$CNF for $k \geq 3$\par
+problem: is $F$ satisfiable?
+\end{block}
+
+\begin{block}{NONEQUIVALENCE}
+given: two propositional formulas $F_1, F_2$\par
+problem: is there an assignment $\mathcal{A}$ such that $\mathcal{A}(F_1) \neq \mathcal{A}(F_2)$?
+\end{block}
+
+\framebreak
+
+\begin{block}{HAMILTON}
+given: undirected graph $G$\par
+problem: does $G$ have a Hamiltonian circuit (i.e. a circuit visiting every vertex exactly once)?
+\end{block}
+
+\begin{block}{TRAVELLING SALESMAN (TSP)}
+given: matrix $(M_{ij})_{1\leq i,j \leq n}$ of \textit{distances}, $k \in \mathbb{N}$\par
+problem: is there a roundtrip (Hamiltonian circuit) of length $\leq k$?
+\end{block}
+
+\framebreak
+
+\begin{block}{COL}
+given: undirected graph $G$, $k \geq 3$\par
+problem: is there a vertex coloring with $k$ colors such that no two adjacent vertices are assigned the same color?
+\end{block}
+
+\begin{block}{SETCOVER}
+given: $T_1,\ldots,T_n \subseteq M$ with $M$ finite, $k \in \mathbb{N}$\par
+problem: is there $i_1,\ldots,i_n \in [k]$ with $M = T_{i_1} \cup \dots \cup T_{i_n}$?
+\end{block}
+
+\begin{block}{CLIQUE}
+given: undirected graph $G$, $k \in \mathbb{N}$\par
+problem: does $G$ have a clique of at least size $k$?
+\end{block}
+
+\framebreak
+
+\begin{block}{KNAPSACK}
+given: $a_1,\ldots,a_n,b \in \mathbb{N}$\par
+problem: is there $R \subseteq [n]$ with $\sum_{i \in R} a_i = b$?
+\end{block}
+
+\begin{block}{PARTITION}
+given: $a_1,\ldots,a_n \in \mathbb{N}$\par
+problem: is there $I \subseteq [n]$ with $\sum_{i \in I} a_i = \sum_{i \not\in I} a_i$?
+\end{block}
+
+\begin{block}{BINPACKING}
+given: \textit{can size} $b \in \mathbb{N}$, \textit{\# of cans} $k \in \mathbb{N}$, \textit{objects} $a_1,\ldots,a_n \in \mathbb{N}$\par
+problem: can each object be assigned to a can without any can overflowing?
+\end{block}
+
+\end{frame}
+
+\end{document}

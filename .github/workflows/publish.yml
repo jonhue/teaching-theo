@@ -19,10 +19,12 @@ jobs:
       with:
         pre_compile: tlmgr update --self && tlmgr update --all
         root_file: |
-          slides/1-en.tex
-          slides/handout-1-en.tex
-          slides/1-de.tex
-          slides/handout-1-de.tex
+          materials/decidability_and_computability.tex
+          materials/handout-decidability_and_computability.tex
+          materials/languages_and_grammars.tex
+          materials/handout-languages_and_grammars.tex
+          materials/regular_languages.tex
+          materials/handout-regular_languages.tex
     - name: Move PDFs
       run: mv ./*.pdf ./dist
     - name: Move readme

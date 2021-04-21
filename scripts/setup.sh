@@ -1,7 +1,9 @@
 # Setup documents
 
 # Generate a handout
-cp ./slides/1-en.tex ./slides/handout-1-en.tex
-sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./slides/handout-1-en.tex
-cp ./slides/1-de.tex ./slides/handout-1-de.tex
-sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./slides/handout-1-de.tex
+cp ./materials/decidability_and_computability.tex ./materials/handout-decidability_and_computability.tex
+sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./materials/handout-decidability_and_computability.tex
+cp ./materials/languages_and_grammars.tex ./materials/handout-languages_and_grammars.tex
+sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./materials/handout-languages_and_grammars.tex
+cp ./materials/regular_languages.tex ./materials/handout-regular_languages.tex
+sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./materials/handout-regular_languages.tex
