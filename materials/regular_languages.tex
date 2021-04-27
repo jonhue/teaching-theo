@@ -67,8 +67,8 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Outline}
- \tableofcontents[subsectionstyle=hide, subsubsectionstyle=hide]
+\begin{frame}[allowframebreaks]{Outline}
+ \tableofcontents[subsubsectionstyle=hide]
 \end{frame}
 % \AtBeginSection[]
 %   {
@@ -82,20 +82,22 @@
 \begin{frame}{Overview}
     \begin{block}{Representations of regular languages}\pause
         \begin{itemize}
-            \item Right-Linear Grammars\pause
+            \item Right-Linear Grammar (RLG)\pause
             \item Deterministic Finite Automaton (DFA)\pause
             \item Nondeterministic Finite Automaton (NFA)\pause
             \item $\epsilon$-NFA\pause
-            \item Regular Expression
+            \item Regular Expression (Regex)
         \end{itemize}
     \end{block}
 \end{frame}
 
-\section{Deterministic Finite Automaton (DFA)}
+\section{Automata}
+
+\subsection{Deterministic Finite Automaton (DFA)}
 
 \begin{frame}{DFA}
     \begin{definition}
-        A \b{deterministic finite automaton (DFA)} $M = (Q, \Sigma, \delta, q_0, F)$\pause consists of
+        A \b{deterministic finite automaton (DFA)} $M = (Q, \Sigma, \delta, q_0, F)$\pause\ consists of
         \begin{itemize}
             \item a finite set of \b{states} $Q$\pause;
             \item a (finite) \b{alphabet} $\Sigma$\pause;
@@ -117,11 +119,11 @@
     \end{definition}
 \end{frame}
 
-\section{Nondeterministic Finite Automaton (NFA)}
+\subsection{Nondeterministic Finite Automaton (NFA)}
 
 \begin{frame}{NFA}
     \begin{definition}
-        A \b{nondeterministic finite automaton (NFA)} $N = (Q, \Sigma, \delta, q_0, F)$\pause consists of
+        A \b{nondeterministic finite automaton (NFA)} $N = (Q, \Sigma, \delta, q_0, F)$\pause\ consists of
         \begin{itemize}
             \item $Q, \Sigma, q_0, F$ as defined for DFAs\pause; and
             \item a (partial) \b{transition function} $\delta: Q \times \Sigma \to 2^Q$.
@@ -137,6 +139,159 @@
         \end{align*}\pause
         The language \b{accepted} by $N$ is $L(N) = \{w \in \Sigma^* \mid \hat{\bar{\delta}}(\{q_0\}, w) \cap F \neq \emptyset\}$.
     \end{definition}
+\end{frame}
+
+\subsection{NFA $\to$ DFA (determinization)}
+
+\begin{frame}{NFA $\to$ DFA (determinization)}
+    \begin{block}{Idea}
+        Interpret every reachable subset $S \subseteq 2^Q$ in the NFA $N$ as its own state in the new DFA $M$.\pause\par
+        Every state $S$ of $M$ where $S \cap F_N \neq \emptyset$ is an accepting state of $M$.
+    \end{block}\pause\padding
+    \r{Worst-case exponential growth!}
+\end{frame}
+
+\subsection{$\epsilon$-NFA}
+
+\begin{frame}{$\epsilon$-NFA}
+    \begin{definition}
+        An \b{$\epsilon$-NFA} $N = (Q, \Sigma, \delta, q_0, F)$ is an NFA with a special symbol $\epsilon \neg\in \Sigma$ where
+        \begin{align*}
+            \delta : Q \times (\Sigma \cup \{\epsilon\}) \to 2^Q.
+        \end{align*}\pause
+        $\epsilon$-transitions can be executed at any time without reading a symbol.
+    \end{definition}
+\end{frame}
+
+\subsection{$\epsilon$-NFA $\to$ NFA}
+
+\begin{frame}{$\epsilon$-NFA $\to$ NFA}
+    \begin{block}{Idea}
+        Given $\epsilon$-NFA $N = (Q, \Sigma, \delta, q_0, F)$\pause\ construct NFA $N' = (Q, \Sigma, \delta', q_0, F')$\pause\ where
+        \begin{align*}
+            \delta' : Q \times \Sigma \to 2^Q : (q, a) \mapsto \bigcup_{i, j \geq 0} \hat{\delta}(\{q\}, \epsilon^i a \epsilon^j)\pause;
+        \end{align*}
+        if $\epsilon \in L(N)$ then $F' = F \cup \{q_0\}$ else $F' = F$.
+    \end{block}
+\end{frame}
+
+\subsection{Product-Construction}
+
+\begin{frame}{Product-Construction}
+    \begin{block}{Idea}
+        Given DFAs $M_1 = (Q_1, \Sigma, \delta_1, s_1, F_1)$ and $M_2 = (Q_2, \Sigma, \delta_2, s_2, F_2)$\pause\ the \b{product automaton} is $M = (Q_1 \times Q_2, \Sigma, \delta, (s_1, s_2), F_1 \times F_2)$\pause\ where
+        \begin{align*}
+            \delta &: (Q_1 \times Q_2) \times \Sigma \to Q_1 \times Q_2 \pause\\
+                   &: ((q_1, q_2), a) \mapsto (\delta_1(q_1, a), \delta_2(q_2, a)).
+        \end{align*}\pause\padding
+        For the product automaton $L(M) = L(M_1) \cap L(M_2)$ holds.
+    \end{block}
+\end{frame}
+
+\subsection{Minimal Automaton}
+
+\subsection{Interlude: Equivalence Relations}
+
+\subsection{Quotient Automaton}
+
+\subsection{Canonical Minimal Automaton}
+
+\subsection{Theorem of Mihill-Nerode}
+
+\section{Right-Linear Grammars}
+
+\subsection{DFA $\to$ RLG}
+
+\begin{frame}{DFA $\to$ RLG}
+    \begin{block}{Idea}
+        Given DFA $M = (Q, \Sigma, \delta, q_0, F)$\pause\ define RLG $G = (Q, \Sigma, P, q_0)$\pause\ with productions $P$:\pause
+        \begin{itemize}
+            \item $(q_1 \to a q_2) \in P$ iff $\delta(q_1, a) = q_2$\pause;
+            \item $(q_1 \to a) \in P$ iff $\delta(q_1, a) \in F$\pause; and
+            \item $(q_0 \to \epsilon) \in P$ iff $q_0 \in F$.
+        \end{itemize}\pause\padding
+        Then, $L(G) = L(M)$.
+    \end{block}
+\end{frame}
+
+\subsection{RLG $\to$ NFA}
+
+\begin{frame}{RLG $\to$ NFA}
+    \begin{block}{Idea}
+        Given RLG $G = (V, \Sigma, P, S)$ without the production $S \to \epsilon$\pause,\ define the NFA $N = (V \cup \{q_f\}, \Sigma, \delta, S, \{q_f\})$\pause\ with:
+        \begin{itemize}
+            \item $Y \in \delta(X, a)$ iff $(X \to aY) \in P$\pause; and
+            \item $q_f \in \delta(X, a)$ iff $(X \to a) \in P$.
+        \end{itemize}\pause\padding
+        Then, $L(N) = L(G)$.
+    \end{block}
+\end{frame}
+
+\section{Regular Expressions}
+
+\subsection{Definition}
+
+\begin{frame}{Regular Expressions}
+    \begin{block}{Syntax}
+        \begin{itemize}
+            \item $\boldsymbol{\emptyset}$ is a regular expression\pause;
+            \item $\epsilon$ is a regular expression\pause;
+            \item $\forall a \in \Sigma$, $a$ is a regular expression\pause; and
+            \item given regular expressions $\alpha, \beta$, the following are regular expressions:\pause
+                \begin{itemize}
+                    \item $\alpha \beta$ (\b{concatenation})\pause;
+                    \item $\alpha | \beta$ (\b{disjunction})\pause; and
+                    \item $\alpha^*$ (\b{repetition}).
+                \end{itemize}
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Regular Expressions}
+    \begin{block}{Semantics}
+        \begin{itemize}
+            \item $L(\boldsymbol{\emptyset}) = \emptyset$\pause;
+            \item $L(\epsilon) = \{\epsilon\}$\pause;
+            \item $L(a) = \{a\}$\pause;
+            \item $L(\alpha \beta) = L(\alpha) L(\beta)$\pause;
+            \item $L(\alpha | \beta) = L(\alpha) \cup L(\beta)$\pause; and
+            \item $L(\alpha^*) = L(\alpha)^*$.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\subsection{Interlude: Structural Induction}
+
+\begin{frame}{Interlude: Structural Induction}
+    To prove a statement $P$ for an object $\gamma$ that is defined inductively, we use \b{structural induction}.\pause\padding
+
+    Let $\gamma$ be defined by base cases $\alpha_1, \dots, \alpha_k$ and inductive cases $\beta_1, \dots, \beta_l$ with assumptions $a_{i1}, \dots, a_{im_i}$ for $i \in \{1, \dots, l\}$.\pause\padding
+
+    To prove $P$ for all $\gamma$, prove:
+    \begin{itemize}
+        \item $P(\alpha_i)$ for $i \in \{1, \dots, k\}$\pause; and
+        \item $P(a_{i1}) \land \dots \land P(a_{im_i}) \implies P(\beta_i)$ for $i \in \{1, \dots, l\}$.
+    \end{itemize}
+\end{frame}
+
+\subsection{Regex $\to$ $\epsilon$-NFA}
+
+\subsection{DFA/NFA $\to$ Regex}
+
+\subsection{Arden's Lemma}
+
+\section{Pumping Lemma}
+
+\begin{frame}{Pumping Lemma}
+    \begin{theorem}{Pumping Lemma for regular languages}
+        Let $R \subseteq \Sigma^*$ be regular.\pause\ Then there exists some $n > 0$ such that every $z \in R$ with $|z| \geq n$ can be decomposed into $z = uvw$\pause\ such that
+        \begin{itemize}
+            \item $v \neq \epsilon$\pause;
+            \item $|uv| \leq n$\pause; and
+            \item $\forall i \geq 0.\ uv^iw \in R$.
+        \end{itemize}
+    \end{theorem}\pause
+    \r{A necessary condition for regular languages.}
 \end{frame}
 
 \end{document}
