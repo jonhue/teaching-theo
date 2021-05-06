@@ -280,6 +280,21 @@
 
 \subsection{Arden's Lemma}
 
+\begin{frame}{Arden's Lemma}
+    \begin{theorem}{Arden's Lemma for regular languages}
+        Let $A, B, X$ be regular languages and $\epsilon \not\in A$, then:
+        \begin{align*}
+            X = AX \cup B \implies X = A^* B.
+        \end{align*}
+    \end{theorem}\pause
+    \begin{theorem}{Arden's Lemma for regular expressions}
+        Let $\alpha, \beta, X$ be regular expressions and $\epsilon \not\in L(\alpha)$, then:
+        \begin{align*}
+            X = \alpha X \mid \beta \implies X = \alpha^* \beta.
+        \end{align*}
+    \end{theorem}
+\end{frame}
+
 \section{Pumping Lemma}
 
 \begin{frame}{Pumping Lemma}
