@@ -281,13 +281,13 @@
 \subsection{Arden's Lemma}
 
 \begin{frame}{Arden's Lemma}
-    \begin{theorem}{Arden's Lemma for regular languages}
+    \begin{theorem}[Arden's Lemma for regular languages]
         Let $A, B, X$ be regular languages and $\epsilon \not\in A$, then:
         \begin{align*}
             X = AX \cup B \implies X = A^* B.
         \end{align*}
     \end{theorem}\pause
-    \begin{theorem}{Arden's Lemma for regular expressions}
+    \begin{theorem}[Arden's Lemma for regular expressions]
         Let $\alpha, \beta, X$ be regular expressions and $\epsilon \not\in L(\alpha)$, then:
         \begin{align*}
             X = \alpha X \mid \beta \implies X = \alpha^* \beta.
@@ -298,7 +298,7 @@
 \section{Pumping Lemma}
 
 \begin{frame}{Pumping Lemma}
-    \begin{theorem}{Pumping Lemma for regular languages}
+    \begin{theorem}[Pumping Lemma for regular languages]
         Let $R \subseteq \Sigma^*$ be regular.\pause\ Then there exists some $n > 0$ such that every $z \in R$ with $|z| \geq n$ can be decomposed into $z = uvw$\pause\ such that
         \begin{itemize}
             \item $v \neq \epsilon$\pause;
@@ -307,6 +307,17 @@
         \end{itemize}
     \end{theorem}\pause
     \r{A necessary condition for regular languages.}
+\end{frame}
+
+\begin{frame}{Pumping Lemma}
+    \begin{example}[proof structure]
+        Assume $L$ is regular.\par
+        Let $n > 0$ be a Pumping Lemma number.\pause\par
+        Choose $z \in L$ with $|z| \geq n$.\par
+        Define $z = uvw$ with $v \neq \epsilon$ and $|uv| \leq n$.\pause\par
+        Then, $\forall i \geq 0.\ uv^iw \in L$.\pause\par
+        Now, use the last statement to find a contradiction.
+    \end{example}
 \end{frame}
 
 \end{document}
