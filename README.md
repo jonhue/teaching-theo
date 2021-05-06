@@ -21,3 +21,4 @@ _I'll continuously update and extend these resources as the course progresses._
 
 1. [Finite Automata and Grammar Construction](https://wbo.ophir.dev/boards/theo-1).
 2. [Regular Languages](https://wbo.ophir.dev/boards/theo-2).
+3. [Pumping Lemma and Arden's Lemma](https://wbo.ophir.dev/boards/theo-3).
