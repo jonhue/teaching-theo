@@ -355,9 +355,87 @@
     \end{itemize}
 \end{frame}
 
-\subsection{Regex $\to$ $\epsilon$-NFA}
+\subsection{Regex $\to$ $\epsilon$-NFA (Kleene)}
 
-\subsection{DFA/NFA $\to$ Regex}
+\begin{frame}{Regex $\to$ $\epsilon$-NFA (Kleene)}
+    \begin{columns}
+        \column{0.1\textwidth}
+        $\boldsymbol{\emptyset}$
+        \column{0.6\textwidth}
+        \includegraphics[width=2cm]{materials/images/regex_to_nfa_emptyset.png}
+    \end{columns}\pause
+    \begin{columns}
+        \column{0.1\textwidth}
+        $\epsilon$
+        \column{0.6\textwidth}
+        \includegraphics[width=2cm]{materials/images/regex_to_nfa_epsilon.png}
+    \end{columns}\pause
+    \begin{columns}
+        \column{0.1\textwidth}
+        $a$
+        \column{0.6\textwidth}
+        \includegraphics[width=3.5cm]{materials/images/regex_to_nfa_symbol.png}
+    \end{columns}\pause
+    \begin{columns}
+        \column{0.1\textwidth}
+        $\alpha \beta$
+        \column{0.6\textwidth}
+        \includegraphics[width=8cm]{materials/images/regex_to_nfa_concatenation.png}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Regex $\to$ $\epsilon$-NFA (Kleene)}
+    \begin{columns}
+        \column{0.1\textwidth}
+        $\alpha \mid \beta$
+        \column{0.6\textwidth}
+        \includegraphics[width=5cm]{materials/images/regex_to_nfa_alternative.png}
+    \end{columns}\pause
+    \begin{columns}
+        \column{0.1\textwidth}
+        $\alpha^*$
+        \column{0.6\textwidth}
+        \includegraphics[width=5.5cm]{materials/images/regex_to_nfa_repetition.png}
+    \end{columns}
+\end{frame}
+
+\subsection{DFA/NFA $\to$ Regex (Kleene)}
+
+\begin{frame}{DFA/NFA $\to$ Regex (Kleene)}
+    Given $M = (Q, \Sigma, \delta, q_1, F)$ with $Q = \{q_1, \dots, q_n\}$ define
+    \begin{align*}
+        R_{ij}^k = \{w \in \Sigma^* \mid &\text{ input } w \text{ transitions from } q_i \text{ to } q_j \\
+        &\text{ and all states in between have an index  } \leq k\}.
+    \end{align*}\pause
+    Idea: for all $i, j \in [n]$ and $k \in [n]_0$\par
+    a regex $\alpha_{ij}^k$ can be constructed with $L(\alpha_{ij}^k) = R_{ij}^k$.
+\end{frame}
+
+\begin{frame}{DFA/NFA $\to$ Regex (Kleene)}
+    Induction over $k$.
+    \begin{itemize}
+        \item $k = 0$:\pause\ Let
+            \begin{align*}
+                R_{ij}^0 &= \begin{cases}
+                    \{a \in \Sigma \mid \delta(q_i, a) = q_j\} & i \neq j \\
+                    \{a \in \Sigma \mid \delta(q_i, a) = q_j\} \cup \{\epsilon\} & i = j
+                \end{cases}\pause \\
+                \alpha_{ij}^0 &= \begin{cases}
+                    a_1 \mid \dots \mid a_l & i \neq j \\
+                    a_1 \mid \dots \mid a_l \mid \epsilon & i = j
+                \end{cases}
+            \end{align*}\pause
+            where $\{a_1, \dots, a_l\} = \{a \in \Sigma \mid \delta(q_i, a) = q_j\}$.\pause
+        \item $k \implies k + 1$:\pause
+            \begin{align*}
+                R_{ij}^{k+1} &= R_{ij}^k\pause \cup \r{R_{i(k+1)}^k (R_{(k+1)(k+1)}^k)^* R_{(k+1)j}^k} \\
+                \onslide<8->{\alpha_{ij}^{k+1}} &\onslide<8->{= a_{ij}^k \mid a_{i(k+1)}^k (a_{(k+1)(k+1)}^k)^* a_{(k+1)j}^k.
+                }
+            \end{align*}
+            \r{New paths using $q_{k+1}$ in terms of the already built subpaths.}
+    \end{itemize}
+    \onslide<9->{We now have, $L(M) = L(\alpha_{1i_1}^n \mid \dots \mid \alpha_{1i_r}^n)$ where $\{q_{i_1}, \dots, q_{i_r}\} = F$.}
+\end{frame}
 
 \subsection{Arden's Lemma}
 
