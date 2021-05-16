@@ -190,6 +190,40 @@
 
 \subsection{Minimal Automaton}
 
+\begin{frame}{Minimal Automaton}
+    For any regular language $L$ there exists a DFA $D$ of minimal size such that $L(D) = L$.\pause
+    \begin{block}{Algorithm ($O(|Q|^2)$ for constant $|\Sigma|$)}
+        \begin{enumerate}
+            \item remove unreachable states from $q_0$\pause
+            \item determine equivalent states\pause
+            \item merge equivalent states
+        \end{enumerate}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Equivalent States}
+    \begin{definition}
+        States $p, q \in Q$ are
+        \begin{itemize}
+            \item \b{equivalent} if $\forall w \in \Sigma^*.\ \hat{\delta}(p, w) \in F \iff \hat{\delta}(q, w) \in F$\pause;
+            \item \b{distinguishable} if they are not equivalent.
+        \end{itemize}
+    \end{definition}\pause
+    \begin{columns}
+    \column{0.6\textwidth}
+        \begin{block}{Algorithm for finding equivalent states}
+            Idea: mark distinguishable states step-by-step.\pause
+            \begin{enumerate}
+                \item mark all pairs $p, q \in Q$ if $p \in F$ and $q \in Q \setminus F$\pause
+                \item while $\exists \text{ unmarked } \{p, q\} \text{ and } \exists a \in \Sigma, \text{ if } \{\delta(p, a), \delta(q, a)\} \text{ is marked, mark } \{p, q\}$
+            \end{enumerate}
+        \end{block}
+    \column{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{materials/images/equivalent_states.png}
+    \end{columns}
+\end{frame}
+
 \subsection{Interlude: Equivalence Relations}
 
 \begin{frame}{Interlude: Equivalence Relations}
@@ -207,9 +241,43 @@
 
 \subsection{Quotient Automaton}
 
+\begin{frame}{Quotient Automaton}
+    Observation: the equivalence of states defines an equivalence relation.\pause\par\spadding
+    We say $p \equiv_M q$ iff $p$ and $q$ are equivalent states in $M$.\pause\padding
+    \begin{definition}
+        The collapsed automaton relative to $\equiv_M$ is called \b{quotient automaton}.\pause
+        \begin{align*}
+            M/{\equiv_M} = (Q/{\equiv_M}, \Sigma, \delta', [q_0]_{\equiv_M}, F/{\equiv_M})
+        \end{align*}\pause
+        with $\delta'([p]_{\equiv_M}, a) = [\delta(p, a)]_{\equiv_M}$ for $p \in Q, a \in \Sigma$.
+    \end{definition}
+\end{frame}
+
 \subsection{Canonical Minimal Automaton}
 
+\begin{frame}{Canonical Minimal Automaton}
+    \begin{definition}
+        The \b{canonical minimal automaton} $M_L$ is a unique minimal automaton for any regular language $L$.\pause
+        \begin{align*}
+            M_L = (\Sigma^*/{\equiv_L}, \Sigma, \delta_L, [\epsilon]_{\equiv_L}, F_L)
+        \end{align*}\pause
+        with
+        \begin{align*}
+            \delta_L([w]_{\equiv_L}, a) &= [wa]_{\equiv_L}\pause \\
+            F_L &= \{[w]_{\equiv_L} \mid w \in L\}
+        \end{align*}\pause
+        It follows that $\hat{\delta}([\epsilon]_{\equiv_L}, w) = [w]_{\equiv_L}$ for $w \in \Sigma^*$,\pause\par
+        hence $L(M_L) = L$.
+    \end{definition}
+\end{frame}
+
 \subsection{Theorem of Mihill-Nerode}
+
+\begin{frame}{Theorem of Mihill-Nerode}
+    \begin{theorem}[Theorem of Mihill-Nerode]
+        $L \subseteq \Sigma^*$ is regular $\iff$ $\equiv_L$ has finitely many equivalence classes.
+    \end{theorem}
+\end{frame}
 
 \section{Right-Linear Grammars}
 
