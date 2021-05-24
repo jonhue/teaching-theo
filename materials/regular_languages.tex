@@ -192,7 +192,7 @@
 
 \begin{frame}{Minimal Automaton}
     For any regular language $L$ there exists a DFA $D$ of minimal size such that $L(D) = L$.\pause
-    \begin{block}{Algorithm ($O(|Q|^2)$ for constant $|\Sigma|$)}
+    \begin{block}{Algorithm ($\mathcal{O}(|Q|^2)$ for constant $|\Sigma|$)}
         \begin{enumerate}
             \item remove unreachable states from $q_0$\pause
             \item determine equivalent states\pause
@@ -473,14 +473,14 @@
 \section{Pumping Lemma}
 
 \begin{frame}{Pumping Lemma}
-    \begin{theorem}[Pumping Lemma for regular languages]
+    \begin{lemma}[Pumping Lemma for regular languages]
         Let $R \subseteq \Sigma^*$ be regular.\pause\ Then there exists some $n > 0$ such that every $z \in R$ with $|z| \geq n$ can be decomposed into $z = uvw$\pause\ such that
         \begin{itemize}
             \item $v \neq \epsilon$\pause;
             \item $|uv| \leq n$\pause; and
             \item $\forall i \geq 0.\ uv^iw \in R$.
         \end{itemize}
-    \end{theorem}\pause
+    \end{lemma}\pause
     \r{A necessary condition for regular languages.}
 \end{frame}
 

@@ -7,3 +7,5 @@ cp ./materials/languages_and_grammars.tex ./materials/handout-languages_and_gram
 sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./materials/handout-languages_and_grammars.tex
 cp ./materials/regular_languages.tex ./materials/handout-regular_languages.tex
 sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./materials/handout-regular_languages.tex
+cp ./materials/context_free_languages.tex ./materials/handout-context_free_languages.tex
+sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./materials/handout-context_free_languages.tex

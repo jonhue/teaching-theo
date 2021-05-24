@@ -1,0 +1,262 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{default}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{default} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+  \setbeamertemplate{footline}[frame number]
+  \setbeamertemplate{itemize items}[circle]
+  \setbeamertemplate{theorems}[numbered]
+  \setbeamercolor*{structure}{bg=white,fg=blue}
+  \setbeamerfont{block title}{size=\normalsize}
+}
+
+% \newtheorem{proposition}[theorem]{Proposition}
+% \theoremstyle{definition}
+% \newtheorem{algorithm}[theorem]{Algorithm}
+% \newtheorem{idea}[theorem]{Idea}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{aligned-overset}
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{csquotes}
+% \usepackage{multicol}
+% \usepackage{stmaryrd}
+\usepackage{tabularx}
+
+% \renewcommand\tabularxcolumn[1]{m{#1}}
+% \newcolumntype{R}{>{\raggedleft\arraybackslash}X}=
+
+\newcommand\logeq{\mathrel{\vcentcolon\Leftrightarrow}}
+\def\code#1{\texttt{\frenchspacing#1}}
+\def\padding{\vspace{0.5cm}}
+\def\spadding{\vspace{0.25cm}}
+\def\b{\textcolor{blue}}
+\def\r{\textcolor{red}}
+\def\g#1{{\usebeamercolor[fg]{block title example}{#1}}}
+
+% fix for \pause in align
+\makeatletter
+\let\save@measuring@true\measuring@true
+\def\measuring@true{%
+  \save@measuring@true
+  \def\beamer@sortzero##1{\beamer@ifnextcharospec{\beamer@sortzeroread{##1}}{}}%
+  \def\beamer@sortzeroread##1<##2>{}%
+  \def\beamer@finalnospec{}%
+}
+\makeatother
+
+\title[Theoretical Computer Science]{Theoretical Computer Science \\ Context-Free Languages}
+\author{Jonas Hübotter}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+ \tableofcontents[subsubsectionstyle=hide]
+\end{frame}
+% \AtBeginSection[]
+%   {
+%      \begin{frame}[allowframebreaks]{Plan}
+%      \tableofcontents[currentsection, sectionstyle=show/hide, hideothersubsections]
+%      \end{frame}
+%   }
+
+\section{Overview}
+
+\begin{frame}{Overview}
+    \begin{block}{Representations of context-free languages}\pause
+        \begin{itemize}
+            \item Context-Free Grammar (CFG)\pause
+            \item Pushdown Automaton (PDA)
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\section{Context-Free Grammars}
+
+\subsection{Variables}
+
+\begin{frame}{Variables}
+    \begin{definition}
+        Given a grammar $G = (V, \Sigma, P, S)$, a variable $X \in V$ is
+        \begin{itemize}
+            \item \b{generative} if $\exists X \to_G^* w \in \Sigma^*$\pause;
+            \item \b{reachable} if $\exists S \to_G^* X$\pause; and
+            \item \b{helpful} if it is generative and reachable.
+        \end{itemize}
+    \end{definition}
+\end{frame}
+
+\subsection{Inductive Definition}
+
+\begin{frame}{Inductive Definition}
+    Given a context-free grammar $G = (V, \Sigma, P, S)$ with $V = \{A_1, \dots, A_k\}$,\pause\par
+    productions $A_i \to w_0 A_{i_1}w_1 \dots w_{n-1} A_{i_n} w_n$\pause\par
+    correspond to \begin{align*}
+        &u_1 \in L_G(A_{i_1}) \land \dots \land u_n \in L_G(A_{i_n}) \\
+        &\implies w_0 u_1 w_1 \dots w_{n-1} u_n w_n \in L_G(A_i).
+    \end{align*}\pause
+    Hence, $L(G) = L_G(S)$.\pause\par\spadding
+    Productions produce words \r{top-down},\par
+    inductive definition \textit{produces} words \r{bottom-up}.
+\end{frame}
+
+\subsection{Decomposition Lemma}
+
+\begin{frame}{Decomposition Lemma}
+    \begin{lemma}[Decomposition Lemma]
+        Any derivation of length $n$ of $\beta$ from $\alpha_1 \alpha_2$ may \textit{split} $\beta$ into two separately derivable parts $\beta_1$ and $\beta_2$ at any position.\pause\ Formally:
+        \begin{align*}
+            \alpha_1 \alpha_2 \to_G^n \beta \iff& \exists \beta_1, \beta_2, n_1, n_2.\ \beta = \beta_1 \beta_2 \land n = n_1 + n_2\ \land \\
+                                                & \alpha_1 \to_G^{n_1} \beta_1 \land \alpha_2 \to_G^{n_2} \beta_2.
+        \end{align*}
+    \end{lemma}
+\end{frame}
+
+\subsection{Syntax Tree}
+
+\begin{frame}{Syntax Tree}
+    \begin{definition}
+        A \b{syntax tree} of a derivation $\to_G$ given $G = (V, \Sigma, P, S)$ is a tree where\pause
+        \begin{enumerate}
+            \item every leaf is labeled with a symbol in $\Sigma \cup \{\epsilon\}$\pause;
+            \item every inner node is labeled with $A \in V$,\par
+                assuming its children are $X_1, \dots, X_n \in V \cup \Sigma \cup \{\epsilon\}$, $A \to X_1 \dots X_n \in P$\pause; and
+            \item a leaf labeled $\epsilon$ is an only child of its parent.
+        \end{enumerate}\pause\spadding
+        The \b{border} of a syntax tree is the labels of its leafs concatenated from left to right.
+    \end{definition}\pause
+    \begin{align*}
+        A \to_G^* w &\iff w \in L_G(A) \\
+                    &\iff \exists\ \text{syntax tree with root } A \text{ and border } w.
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Syntax Tree}
+    \begin{definition}
+        \begin{itemize}
+            \item A CFG $G$ is \b{ambiguous} if $\exists w \in L(G)$ that has two distinct syntax trees.
+            \item A CFL $L$ is \b{inherently ambiguous} if every CFG $G$ with $L(G) = L$ is ambiguous.
+        \end{itemize}
+    \end{definition}
+\end{frame}
+
+\subsection{Chomsky Normal Form}
+
+\begin{frame}{Chomsky Normal Form}
+    \begin{definition}[Chomsky Normal Form]
+        All productions are of the form $A \to a$ or $A \to BC$ for $a \in Sigma$ and $A,B,C \in V$.
+    \end{definition}\pause
+
+    \begin{block}{Algorithm to convert a CFG to Chomsky Normal Form ($\mathcal{O}(|P|^2)$)}
+        \begin{enumerate}
+            \item replace every $a \in \Sigma$ occurring in a production with length $>1$ by a non-terminal\pause
+            \item replace $A \to B_1 \dots B_k$ (where $k>2$) with $A \to B_1 C_2, C_2 \to B_2, \dots, C_k \to B_k$\pause
+            \item remove $\epsilon$-productions (i.e. $A \to \epsilon$)\pause
+            \item remove chain productions (i.e. $A \to B$)
+        \end{enumerate}
+    \end{block}
+\end{frame}
+
+\subsection{Other Normal Forms}
+
+\begin{frame}{Other Normal Forms}
+    \begin{definition}[Greibach Normal Form]
+        All productions are of the form $A \to a A_1 \dots A_n$ for $a \in Sigma$ and $A_1, \dots, A_n \in V$.
+    \end{definition}\pause
+
+    \begin{definition}[Backus-Naur Normal Form]
+        Allows the use of regular expressions in productions (in addition to symbols).
+    \end{definition}
+\end{frame}
+
+\subsection{Cocke-Younger-Kasami Algorithm (CYK)}
+
+\begin{frame}{Cocke-Younger-Kasami Algorithm (CYK)}
+    Solves the word problem for CFGs.\pause
+
+    \begin{block}{Algorithm ($\mathcal{O}(|w|^3)$)}
+        Given $G = (V, \Sigma, P, S)$ in Chomsky normal form and $w = a_1 \dots a_n \in \Sigma^*$.\pause\par
+        Define $V_{ij} = \{A \in V \mid A \to_G^* a_i \dots a_j\}$ for $i \leq j$ as the set of all initial symbols that may be used to derive $a_i \dots a_j$.\pause\par
+        Then $w \in L_G(A) \iff A \in V_{1n}$.\pause\par\spadding
+        Recursive definition of $V_{ij}$:
+        \begin{itemize}
+            \item base: $V_{ii} = \{A \in V \mid (A \to a_i) \in P\}$\pause
+            \item step: \begin{align*}
+                V_{ij} = \{A \in V \mid \substack{\exists i \leq k < j, B \in V_{ik}, C \in V_{(k+1)j}.\ \\ (A \to BC) \in P}\}
+            \end{align*}
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\section{Pushdown Automaton (PDA)}
+
+\subsection{Extension Lemma}
+
+\subsection{Decomposition Lemma}
+
+\subsection{CFG $\to$ PDA}
+
+\subsection{PDA $\to$ CFG}
+
+\subsection{Deterministic Pushdown Automaton (DPDA)}
+
+\section{Closure Properties}
+
+\begin{frame}{Closure Properties}
+    \begin{theorem}
+        Given the context-free languages $L, L_1, L_2$, then the following are also centext-free languages:\pause
+        \begin{itemize}
+            \item $L_1 L_2$\pause;
+            \item $L_1 \cup L_2$\pause; and
+            \item $L^*$.
+        \end{itemize}
+    \end{theorem}\pause
+
+    \begin{theorem}
+        Given the deterministic context-free language $L$, then $\bar{L}$ is deterministic context-free.
+    \end{theorem}
+\end{frame}
+
+\section{Pumping Lemma}
+
+\begin{frame}{Pumping Lemma}
+    \begin{lemma}[Pumping Lemma for context-free languages]
+        Let $L \subseteq \Sigma^*$ be context-free.\pause\ Then there exists some $n > 0$ such that every $z \in L$ with $|z| \geq n$ can be decomposed into $z = uvwxy$\pause\ such that
+        \begin{itemize}
+            \item $vx \neq \epsilon$\pause;
+            \item $|vwx| \leq n$\pause; and
+            \item $\forall i \geq 0.\ uv^iwx^iy \in L$.
+        \end{itemize}
+    \end{lemma}\pause
+    \r{A necessary condition for context-free languages.}
+\end{frame}
+
+\begin{frame}{Pumping Lemma}
+    \begin{example}[proof structure]
+        Assume $L$ is context-free.\par
+        Let $n > 0$ be a Pumping Lemma number.\pause\par
+        Choose $z \in L$ with $|z| \geq n$.\par
+        Define $z = uvwxy$ with $vx \neq \epsilon$ and $|vwx| \leq n$.\pause\par
+        Then, $\forall i \geq 0.\ uv^iwx^iy \in L$.\pause\par
+        Now, use the last statement to find a contradiction separating all possible cases for $v$ and $x$.
+    \end{example}
+\end{frame}
+
+\end{document}

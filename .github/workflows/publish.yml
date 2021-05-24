@@ -25,6 +25,8 @@ jobs:
           materials/handout-languages_and_grammars.tex
           materials/regular_languages.tex
           materials/handout-regular_languages.tex
+          materials/context_free_languages.tex
+          materials/handout-context_free_languages.tex
     - name: Move PDFs
       run: mv ./*.pdf ./dist
     - name: Move readme
