@@ -25,3 +25,4 @@ _I'll continuously update and extend these resources as the course progresses._
 3. [Pumping Lemma and Arden's Lemma](https://wbo.ophir.dev/boards/theo-3).
 4. _holiday_
 5. [Context-Free Grammars](https://wbo.ophir.dev/boards/theo-5).
+5. [Context-Free Languages](https://wbo.ophir.dev/boards/theo-6).
