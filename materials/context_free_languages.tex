@@ -88,7 +88,7 @@
     \end{block}
 \end{frame}
 
-\section{Context-Free Grammars}
+\section{Context-Free Grammar (CFG)}
 
 \subsection{Variables}
 
@@ -207,13 +207,100 @@
 
 \section{Pushdown Automaton (PDA)}
 
-\subsection{Extension Lemma}
+\begin{frame}{PDA}
+    \begin{definition}
+        A \b{pushdown automaton (PDA)} $M = (Q, \Sigma, \Gamma, q_0, Z_0, \delta, F)$\pause\ consists of
+        \begin{itemize}
+            \item a finite set of \b{states} $Q$\pause;
+            \item a (finite) \b{input alphabet} $\Sigma$\pause;
+            \item a (finite) \b{stack alphabet} $\Gamma$\pause;
+            \item an \b{initial state} $q_0 \in Q$\pause;
+            \item an \b{initial stack element} $Z_0 \in \Gamma$\pause;
+            \item a (partial) \b{transition function} $\delta: Q \times (\Sigma \cup \{\epsilon\}) \times \Gamma \to 2^{Q \times \Gamma^*}$\pause; and
+            \item a set of \b{terminal (accepting) states} $F \subseteq Q$.
+        \end{itemize}
+    \end{definition}\pause
+    Graphically, transitions are denoted as $a, Z/\alpha$ where $a \in \Sigma$ is the input, $Z \in \Gamma$ is the top stack element, and $\alpha \in \Gamma^*$ replaces $Z$ in the new stack.
+\end{frame}
 
-\subsection{Decomposition Lemma}
+\begin{frame}{PDA}
+    \begin{definition}
+        The \b{configuration} of a PDA $M$ is a triple $(q, w, \alpha)$ where $q \in Q$ is its state, $w \in \Sigma^*$ is its remaining input, and $\alpha \in \Gamma^*$ is its stack.\pause\par\spadding
+        The \b{initial configuration} of $M$ on input $w \in \Sigma^*$ is $(q_0,w,Z_0)$.
+    \end{definition}\pause
+    \begin{definition}
+        The \b{transition relation} of a PDA $M$ is \begin{align*}
+            (q,aw,Z\alpha) \to_M (q',w,\beta\alpha) &\quad\text{if } (q',\beta) \in \delta(q,a,Z) \\
+            (q,w,Z\alpha) \to_M (q',w,\beta\alpha)  &\quad\text{if } (q',\beta) \in \delta(q,\epsilon,Z).
+        \end{align*}
+    \end{definition}
+\end{frame}
+
+\begin{frame}{PDA}
+    \begin{definition}
+        PDA $M$ \b{accepts} $w \in \Sigma^*$ with final state if \begin{align*}
+            (q_0,w,Z_0) \to_M^* (f,\epsilon,\gamma) \quad\text{for } f \in F, \gamma in \Gamma^*.
+        \end{align*}
+        So, $L_F(M) = \{w \in \Sigma^* \mid \exists f \in F, \gamma \in \Gamma^*.\ (q_0,w,Z_0) \to_M^* (f,\epsilon,\gamma)\}$.
+    \end{definition}\pause
+    \begin{definition}
+        PDA $M$ \b{accepts} $w \in \Sigma^*$ with empty stack if \begin{align*}
+            (q_0,w,Z_0) \to_M^* (q,\epsilon,\epsilon) \quad\text{for } q \in Q.
+        \end{align*}
+        So, $L_{\epsilon}(M) = \{w \in \Sigma^* \mid \exists q \in Q.\ (q_0,w,Z_0) \to_M^* (q,\epsilon,\epsilon)\}$.
+    \end{definition}\pause\padding
+    \r{Both accepting conditions are equally powerful.}
+\end{frame}
+
+\subsection{Lemmas}
+
+\begin{frame}{Lemmas}
+    \begin{lemma}[Extension Lemma]
+        Every derivation may occur as a sub-derivation of a larger derivation\pause:
+        \begin{align*}
+            (q,u,\alpha) \to_M^n (q',u',\alpha') \implies (q,uv,\alpha\beta) \to_M^n (q',u'v,\alpha'\beta).
+        \end{align*}
+    \end{lemma}\pause
+    \begin{lemma}[Decomposition Lemma]
+        Every derivation that empties the stack can be divided into sub-derivations that each remove a single symbol from the stack\pause:
+        Given $(q,w,Z_1 \dots Z_k) \to_M^n (q',\epsilon,\epsilon)$\pause,\par
+        then $\forall i \in [1,k].\ \exists u_i, p_i, n_i$ such that \begin{align*}
+            (p_{i-1},u_i,Z_i) \to_M^{n_i} (p_i,\epsilon,\epsilon)
+        \end{align*} with $w = u_1 \dots u_k$, $q = p_0$, $q_k = p_k$, and $n = \sum_{i=1}^k n_i$.
+    \end{lemma}
+\end{frame}
 
 \subsection{CFG $\to$ PDA}
 
+\begin{frame}{CFG $\to$ PDA}
+    Given CFG $G = (V,\Sigma,P,S)$,\pause
+    \begin{enumerate}
+        \item bring all productions into the form \begin{align*}
+            A \to b B_1 \dots B_k \quad\text{for } b \in \Sigma \cup \{\epsilon\}
+        \end{align*}\pause
+        \item define the PDA $M = (\{q\},\Sigma,V,q,S,\delta)$\pause\ with \begin{align*}
+            \delta(q,b,A) = \{(q,\beta) \mid (A \to b \beta) \in P\}.
+        \end{align*}
+    \end{enumerate}\pause
+    Then, $L(G) = L_{\epsilon}(M)$.
+\end{frame}
+
 \subsection{PDA $\to$ CFG}
+
+\begin{frame}{PDA $\to$ CFG}
+    Given PDA $G = (Q,\Sigma,\Gamma,q_0,Z_0,\delta,F)$,\pause\ define CFG $G = (V,\Sigma,P,S)$.\pause\par\spadding
+    We define $V = Q \times \Gamma \times Q \cup \{S\}$ where each $[q,Z,p] \in V$ describes all possibilities of going from state $q \in Q$ to state $p \in Q$ while $Z \in \Gamma$ is the top stack element.\pause\par\spadding
+    We define the productions $P$ as \begin{itemize}
+        \item $\forall q \in Q.\ S \to [q_0,Z_0,q]$\pause\ and
+        \item $\forall (r_0, Z_1 \dots Z_k) \in \delta(q,b,Z).\ \forall r_1, \dots, r_k \in Q.$\pause \begin{align*}
+            [q,Z,r_k] \to b [r_0,Z_1,r_1][r_1,Z_2,r_2]\dots[r_{k-1},Z_k,r_k].
+        \end{align*}
+    \end{itemize}\pause\padding
+    We observe that \begin{align*}
+        [q,Z,r_k] \to_G^* w \iff (q,w,Z) \to_M^* (r_k,\epsilon,\epsilon).
+    \end{align*}\pause
+    So, $L(G) = L_{\epsilon}(M)$.
+\end{frame}
 
 \subsection{Deterministic Pushdown Automaton (DPDA)}
 
