@@ -28,3 +28,4 @@ _I'll continuously update and extend these resources as the course progresses._
 6. [Context-Free Languages](https://wbo.ophir.dev/boards/theo-6).
 7. _holiday_
 8. [Pushdown Automata](https://wbo.ophir.dev/boards/theo-8).
+8. [Computability](https://wbo.ophir.dev/boards/theo-9).
