@@ -82,148 +82,274 @@
 %      \end{frame}
 %   }
 
-\section{Decidability and Computability}
+\section{Turing Machine (TM)}
 
-\subsection{Problems}
+\begin{frame}{TM}
+    \begin{definition}
+        A \b{Turing machine (TM)} $M = (Q, \Sigma, \Gamma, \delta, q_0, \square, F)$\pause\ consists of
+        \begin{itemize}
+            \item a finite set of \b{states} $Q$\pause;
+            \item a (finite) \b{input alphabet} $\Sigma$\pause;
+            \item a (finite) \b{tape alphabet} $\Gamma$\pause;
+            \item a (partial) \b{transition function} $\delta: Q \times \Gamma \to Q \times \Gamma \times \{L,R,N\}$\pause;
+            \item an \b{initial state} $q_0 \in Q$\pause;
+            \item an \b{empty tape element} $\square \in \Gamma \setminus \Sigma$\pause; and
+            \item a set of \b{terminal (accepting) states} $F \subseteq Q$.
+        \end{itemize}
+    \end{definition}\pause
+    We assume $\delta(q, a) = \bot$ (is undefined) for any $q \in F$, i.e. as soon as we reach a final state the TM halts.\pause\par
+    Graphically, transitions are denoted as $\alpha/\beta, \xi$ where $\alpha \in \Gamma$ is the current tape element which is replaced by $\beta \in \Gamma$ and the head moves in the direction $\xi \in \{L,R,N\}$.
+\end{frame}
 
-\begin{frame}{Problems}
+\begin{frame}{TM}
+    A Turing machine can be interpreted as a read-write-head operating on an infinite tape initialized with $\square$. $L, R$, and $N$ denote the movement of the head on the tape in the direction left, right, and none, respectively.\pause\par\spadding
+    \begin{definition}
+        A \b{nondeterministic} TM has the transition function $\delta : Q \times \Gamma \to 2^{Q \times \Gamma \times \{L,R,N\}}$, similarly to nondeterministic PDAs.
+    \end{definition}\pause
+    \begin{theorem}
+        For every nondeterministic TM $N$ there exists a deterministic TM $M$ such that $L(N) = L(M)$.
+    \end{theorem}\pause
+    Idea: $M$ uses breadth-first search to emulate $N$ (see \textit{dovetailing}).
+\end{frame}
 
-Given problem $A \subseteq \Sigma^*$.\spadding
+\begin{frame}{TM}
+    \begin{definition}
+        The \b{configuration} of a TM $M$ is a triple $(\alpha, q, \beta)$ where $q \in Q$ is its state, $\alpha \in \Gamma^*$ is the tape content left-to-right up to the position of the head, and $\beta \in \Gamma^*$ is the tape content left-to-right from the element at the position of the head.\pause\par
+        Given configuration $(\alpha,q\beta)$, $M$ can be graphically represented as $\cdots \square \alpha \beta \square \cdots$ where $M$ is in state $q$ and its head is at the leftmost symbol of $\beta$.\pause\par\spadding
+        The \b{initial configuration} of $M$ on input $w \in \Sigma^*$ is $(\epsilon,q_0,w)$.\pause
+        The run of a Turing machine on input $w$ is denoted by $M[w]$.
+    \end{definition}\pause
+    \begin{definition}
+        A TM \b{terminates} when it reaches a configuration $(\alpha,q,a \beta)$ where $\delta(q,a) = \bot$ or $\delta(q,a) = \emptyset$.\pause\ This is denoted by $M[w]\joinrel\downarrow$.
+    \end{definition}
+\end{frame}
 
+\begin{frame}{TM}
+    \begin{definition}
+        A \b{run} of a TM $M$ is modeled as the relation $\to_M$. Given $\delta(q, \text{first}(\beta)) = (q',c,D)$ \begin{align*}
+            \alpha,q\beta) \to_M \begin{cases}
+                (\alpha,q',c\ \text{rest}(\beta)) & D = N \\
+                (\alpha c,q',\text{rest}(\beta)) & D = R \\
+                (\text{butlast}(\alpha),q',\text{last}(\alpha)\ c\ \text{rest}(\beta)) & D = L
+            \end{cases}
+        \end{align*} where for $w = w_1 \cdots w_n$, $\text{first}(w) = w_1$, $\text{rest}(w) = w_2 \cdots w_n$, $\text{last}(w) = w_n$, and $\text{butlast}(w) = w_1 \cdots w_{n-1}$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{TM}
+    \begin{definition}
+        A TM $M$ \b{accepts} the language \begin{align*}
+            L(M) = \{w \in \Sigma^* \mid \exists q \in F.\ \alpha, \beta \in \Gamma^*.\ (\epsilon,q_0,w) \to_M^* (\alpha,q,\beta)\}.
+        \end{align*}
+    \end{definition}\pause
+    The languages accepted by a TM are precisely the type-0 grammars in the Chomsky-Hierarchy (i.e. semi-decidable languages).
+\end{frame}
+
+\subsection{Encoding}
+
+\begin{frame}{Encoding}
+    A TM can be encoded using words over the alphabet $\{0,1\}$.\pause
+    \begin{definition}
+        $M_w$ denotes the Turing machine represented by the encoding $w \in \{0,1\}^*$.
+    \end{definition}
+\end{frame}
+
+\subsection{$k$-tape TM}
+
+\begin{frame}{$k$-tape TM}
+    \begin{definition}
+        A \b{$k$-tape TM} is a TM that operates on $k$ tapes simultaneously.
+    \end{definition}\pause
+    \begin{theorem}
+        Every $k$-tape TM can be simulated by a $1$-tape TM.
+    \end{theorem}
+\end{frame}
+
+\section{Computability}
+
+\begin{frame}{Turing-Computability}
+    \begin{definition}
+        A function $f : \Sigma^* \to \Sigma^*$ ($\Sigma$ is a finite set) is \b{Turing-computable} if there exists a TM $M$ such that $\forall u,v \in \Sigma^*$ \begin{align*}
+            f(u) = v \iff \exists q \in F.\ (\epsilon,q_0,u) \to_M^* (\epsilon,q,v).
+        \end{align*}\pause
+        In particular, any TM computes a function. $\varphi_w$ denotes the function computed by $M_w$.
+    \end{definition}\pause\spadding
+    Thus, Turing-computability is a property of functions operating on discrete sets (i.e. functions implemented by a computer).\pause\par\spadding
+    The \b{Church-Turing (hypo-)thesis} states that any such function can be computed by a \textit{computer} (or effective method) iff it is Turing-computable (i.e. can be computed by a Turing machine).
+\end{frame}
+
+\section{Decidability}
+
+\subsection{Problem}
+
+\begin{frame}{Problem}
 \begin{definition}
-$x$ is an \b{instance} of $A$ if $x \in \Sigma^*$.\par
-$x$ is a \b{solution} to $A$ if $x \in A$.
-\end{definition}
+A \b{problem} is a language $A = \{x \in \Sigma^* \mid P(x)\} \subseteq \Sigma^*$ for some predicate $P : \Sigma^* \to \{0,1\}$.\pause\spadding
 
+Given problem $A \subseteq \Sigma^*$.\pause
+\begin{itemize}
+    \item $x$ is an \b{instance} of $A$ if $x \in \Sigma^*$.\pause
+    \item $x$ is a \b{solution} to $A$ if $x \in A$.
+\end{itemize}
+\end{definition}
+\end{frame}
+
+\subsection{Reduction}
+
+\begin{frame}{Reduction}
+    \begin{definition}
+        A problem $A \subseteq \Sigma^*$ is \b{reducable} to a problem $B \subseteq \Gamma^*$ (denoted $A \leq B$) if there is a total and computable function $f : \Sigma^* \to \Gamma^*$ such that \begin{align*}
+            \forall w \in \Sigma^*.\ w \in A \iff f(w) \in B.
+        \end{align*}
+    \end{definition}\pause
+    \begin{example}
+        To show that a function $f$ is a valid reduction from $A$ to $B$ we need to prove three properties:\pause
+        \begin{itemize}
+            \item $f$ is \textit{total} on $\Sigma^*$\pause;
+            \item $f$ is \textit{computable}\pause; and
+            \item $f$ is \textit{correct}, i.e. $\forall w \in \Sigma^*.\ w \in A \iff f(w) \in B$.
+        \end{itemize}
+    \end{example}
 \end{frame}
 
 \subsection{Decidability}
 
 \begin{frame}{Decidability}
-
-\begin{definition}
-The \b{characteristic function} of a problem $A$ is given as
-\begin{align*}
-    \chi_A(x) = \begin{cases}
-                    1 & \text{if}\ x \in A \\
-                    0 & \text{otherwise}
-                \end{cases}.
-\end{align*}
-\end{definition}
-
-\begin{definition}
-A problem $A$ is \b{decidable} if its characteristic function is computable.
-\end{definition}
-
+    Decidability can be interpreted as computability in the context of problems instead of functions.\pause
+    \begin{definition}
+        The \b{characteristic function} of a problem $A$ is given as
+        \begin{align*}
+            \chi_A(x) = \begin{cases}
+                            1 & x \in A \\
+                            0 & x \not\in A
+                        \end{cases}.
+        \end{align*}
+    \end{definition}\pause
+    \begin{definition}
+        A problem $A$ is \b{decidable} if its characteristic function is computable.
+    \end{definition}\pause\spadding
+    Given a reduction $A \leq B$,\pause
+    \begin{itemize}
+        \item $B$ decidable $\implies$ $A$ decidable\pause; and
+        \item $A$ undecidable $\implies$ $B$ undecidable.
+    \end{itemize}
 \end{frame}
 
-\section{Problems}
+\subsection{Theorem of Rice}
 
-\subsection{Undecidable problems}
-
-\begin{frame}[allowframebreaks]{Undecidable problems}
-
-\begin{block}{Special Halting Problem}
-$K = \{w \in \{0,1\}^* \mid M_w[w]\downarrow\}$
-\end{block}
-
-\begin{block}{General Halting Problem}
-$H = \{w\#x \mid w,x \in \{0,1\}^* \land M_w[x]\downarrow\}$
-\end{block}
-
-\begin{block}{Halting Problem on an empty tape}
-$H_0 = \{w \in \{0,1\}^* \mid M_w[\epsilon]\downarrow\}$
-\end{block}
-
-\begin{block}{Post's Correspondence Problem (PCP)}
-given: finite sequence $(x_1, y_1), \ldots, (x_k, y_k)$ where $x_i,y_i \in \Sigma^+$\par
-problem: is there a sequence of indices $i_1,\ldots,i_n \in [k], n > 0$ such that $x_{i_1} \dots x_{i_n} = y_{i_1} \dots y_{i_n}$?
-\end{block}
-
-\framebreak
-
-\begin{block}{CFG problems}
-Let $G, G_1, G_2$ be CFGs.
-\begin{itemize}
-    \item $L(G_1) \cap L(G_2) = \emptyset$?
-    \item $|L(G_1) \cap L(G_2)| = \infty$?
-    \item $L(G_1) \cap L(G_2)$ context-free?
-    \item $L(G_1) \subseteq L(G_2)$?
-    \item $L(G_1) = L(G_2)$?
-    \item $G$ ambiguous?
-    \item $G$ regular?
-    \item $G$ deterministic?
-    \item for some regular expression $\alpha$, $L(G) = L(\alpha)$?
-\end{itemize}
-\end{block}
-
+\begin{frame}{Theorem of Rice}
+    \begin{theorem}[Theorem of Rice]
+        Let $\mathcal{F}$ be a set of computable functions.\pause\par
+        If $\mathcal{F}$ is non-trivial, i.e. $\mathcal{F} \neq \emptyset$ and $\mathcal{F} \neq \{f \mid f \text{computable}\}$,\pause\par
+        then deciding if $\varphi_w \in \mathcal{F}$ is undecidable.\pause\par\spadding
+        In other words, \begin{align*}
+            C_{\mathcal{F}} = \{w \in \{0,1\}^* \mid \varphi_w \in \mathcal{F}\}
+        \end{align*} is undecidable.
+    \end{theorem}
 \end{frame}
 
-\subsection{NP-complete problems}
+\begin{frame}{Theorem of Rice}
+    \begin{example}
+        When using the theorem of Rice to prove that a problem $A = \{w \in \{0,1\}^* \mid P(w)\}$ is undecidable, we must complete two steps:\pause
+        \begin{enumerate}
+            \item construct the set of computable functions $\mathcal{F}$ that fulfill the same property $P$ as functions $\varphi_w$ whose $w$ are in $A$\pause; and
+            \item show that $\mathcal{F}$ is non-trivial by giving an example of a computable function $g \in \mathcal{F}$ and a computable function $h \not\in \mathcal{F}$.
+        \end{enumerate}\pause
+        Note that for step 1, $P$ must \r{not} depend directly on the encoding $w$ but only on $\varphi_w$, otherwise the theorem of Rice cannot be applied.
+    \end{example}
+\end{frame}
 
-\begin{frame}[allowframebreaks]{NP-complete problems}
+\subsection{Semi-Decidability}
 
-\begin{block}{SAT}
-given: propositional formula $F$\par
-problem: is $F$ satisfiable?+-
-\end{block}
+\begin{frame}{Semi-Decidability}
+    \begin{definition}
+        A problem $A$ is \b{semi-decidable} if \begin{align*}
+            \chi'_A(x) = \begin{cases}
+                            1 & x \in A \\
+                            \bot & x \not\in A
+                        \end{cases}.
+        \end{align*} is computable.
+    \end{definition}\pause\spadding
+    \begin{itemize}
+        \item Given a reduction $A \leq B$, $B$ semi-decidable $\implies$ $A$ semi-decidable\pause; and
+        \item $A$ decidable $\iff$ $A$ semi-decidable and $\bar{A}$ semi-decidable.
+    \end{itemize}
+\end{frame}
 
-\begin{block}{CNF-SAT}
-given: propositional formula $F$ in $k$CNF for $k \geq 3$\par
-problem: is $F$ satisfiable?
-\end{block}
+\begin{frame}{Recursive Enumerability}
+    \begin{definition}
+        A problem $A$ is \b{recursively enumerable} if $A = \emptyset$ or there exists a computable function $f : \mathbb{N}_0 \to A$ such that $A = \{f(0), f(1), \dots\}$.
+    \end{definition}\pause
+    \begin{theorem}
+        A problem $A$ is semi-decidable iff $A$ is recursively enumerable.
+    \end{theorem}
+\end{frame}
 
-\begin{block}{NONEQUIVALENCE}
-given: two propositional formulas $F_1, F_2$\par
-problem: is there an assignment $\mathcal{A}$ such that $\mathcal{A}(F_1) \neq \mathcal{A}(F_2)$?
-\end{block}
+\subsection{Theorem of Rice-Shapiro}
 
-\framebreak
+\begin{frame}{Theorem of Rice-Shapiro}
+    \begin{theorem}[Theorem of Rice-Shapiro]
+        Let $\mathcal{F}$ be a set of computable functions.\pause\par
+        If $C_{\mathcal{F}} = \{w \in \{0,1\}^* \mid \varphi_w \in \mathcal{F}\}$ is semi-decidable,\pause\par
+        then $f \in \mathcal{F}$ iff there exists a finite and partial function $g \subseteq f$ with $f \in \mathcal{F}$.
+    \end{theorem}\pause\spadding
+    Often the contrapositive statement is useful:\pause\par
+    If there exists an $f \in \mathcal{F}$ such there exists no finite and partial function $g \subseteq f$ with $g \in \mathcal{F}$\pause, then $C_{\mathcal{F}}$ is not semi-decidable.
+\end{frame}
 
-\begin{block}{HAMILTON}
-given: undirected graph $G$\par
-problem: does $G$ have a Hamiltonian circuit (i.e. a circuit visiting every vertex exactly once)?
-\end{block}
+\section{Computation Models}
 
-\begin{block}{TRAVELLING SALESMAN (TSP)}
-given: matrix $(M_{ij})_{1\leq i,j \leq n}$ of \textit{distances}, $k \in \mathbb{N}$\par
-problem: is there a roundtrip (Hamiltonian circuit) of length $\leq k$?
-\end{block}
+\begin{frame}{Computation Models}
+    We have mainly focused on Turing machines to model computability. There are, however, other models for computability that are commonly used:\pause
+    \begin{itemize}
+        \item \b{WHILE}, programs using \textbf{while} $x \neq 0$ \textbf{do} $\cdots$ \textbf{end while} and \textbf{if} $x = 0$ \textbf{then} $\cdots$ \textbf{else} $\cdots$ \textbf{end if} for control flow\pause;
+        \item \b{GOTO}, programs running with a program counter using conditionals (\textbf{if}), commands to jump to a specific line (\textbf{goto}), and commands to terminate (\textbf{halt}) for control flow\pause;
+        \item \b{LOOP}, programs using conditionals (\textbf{if}) and loops of a pre-determined fixed length (\textit{loop}) for control flow;
+    \end{itemize}
+\end{frame}
 
-\framebreak
+\begin{frame}{Computation Models}
+    \begin{itemize}
+        \item \b{primitively recursive (PR)}, functions of the shape \begin{align*}
+            f(0,\bar{x}) &= t_0 \\
+            f(m+1,\bar{x}) &= t
+        \end{align*} where $t_0$ is a term that is only using $x_i$ and other PR functions and $t$ is a term that may use $f(m,\bar{x})$, $x_i$, and other PR functions\pause; and
+        \item \b{$\mu$-recursive ($\mu$R)}, an extension of PR where programs are allowed to use the $\mu$-operator which is defined as \begin{align*}
+            \mu f(\bar{x} &= \text{find}(0,\bar{x}) \\
+            \text{find}(n,\bar{x}) &= \begin{cases}
+                n & f(n,\bar{x}) = 0 \\
+                \text{find}(n+1,\bar{x}) & \text{otherwise}.
+            \end{cases}
+        \end{align*}
+    \end{itemize}
+\end{frame}
 
-\begin{block}{COL}
-given: undirected graph $G$, $k \geq 3$\par
-problem: is there a vertex coloring with $k$ colors such that no two adjacent vertices are assigned the same color?
-\end{block}
+\begin{frame}{Computation Models}
+    Turing-computable functions are functionally equivalent to \begin{itemize}
+        \item Turing machines;
+        \item WHILE programs;
+        \item GOTO programs; and
+        \item $\mu$-recursive programs.
+    \end{itemize}\pause\spadding
 
-\begin{block}{SETCOVER}
-given: $T_1,\ldots,T_n \subseteq M$ with $M$ finite, $k \in \mathbb{N}$\par
-problem: is there $i_1,\ldots,i_n \in [k]$ with $M = T_{i_1} \cup \dots \cup T_{i_n}$?
-\end{block}
+    LOOP and PR programs are also able to express the same set of functions, but this set is a true subset of all Turing-computable functions.\pause\par
+    In other words, there exist Turing-computable functions that are not primitively recursive (or computable by a LOOP program), for example the Ackermann function which is discussed next.
+\end{frame}
 
-\begin{block}{CLIQUE}
-given: undirected graph $G$, $k \in \mathbb{N}$\par
-problem: does $G$ have a clique of at least size $k$?
-\end{block}
+\section{Ackermann Function}
 
-\framebreak
-
-\begin{block}{KNAPSACK}
-given: $a_1,\ldots,a_n,b \in \mathbb{N}$\par
-problem: is there $R \subseteq [n]$ with $\sum_{i \in R} a_i = b$?
-\end{block}
-
-\begin{block}{PARTITION}
-given: $a_1,\ldots,a_n \in \mathbb{N}$\par
-problem: is there $I \subseteq [n]$ with $\sum_{i \in I} a_i = \sum_{i \not\in I} a_i$?
-\end{block}
-
-\begin{block}{BINPACKING}
-given: \textit{can size} $b \in \mathbb{N}$, \textit{\# of cans} $k \in \mathbb{N}$, \textit{objects} $a_1,\ldots,a_n \in \mathbb{N}$\par
-problem: can each object be assigned to a can without any can overflowing?
-\end{block}
-
+\begin{frame}{Ackermann Function}
+    The Ackermann function can be used to show that a function $f$ is not primitively recursive.\pause
+    \begin{definition}
+        The \b{Ackermann function} $a$ is not primitively recursive and is defined as \begin{align*}
+            a(0,n) &= n+1 \\
+            a(m+1,0) &= a(m,1) \\
+            a(m+1,n+1) &= a(m,a(m+1,n))
+        \end{align*}
+    \end{definition}\pause
+    \begin{theorem}
+        For every primitively recursive function $f : \mathbb{N}^k \to \mathbb{N}$ there exists a $t \in \mathbb{N}$ such that $\forall \bar{x} \in \mathbb{N}^k.\ f(\bar{x}) < a(t, \max \bar{x})$.
+    \end{theorem}
 \end{frame}
 
 % \begin{frame}[allowframebreaks]{References}

@@ -19,6 +19,8 @@ jobs:
       with:
         pre_compile: tlmgr update --self && tlmgr update --all
         root_file: |
+          materials/problems.tex
+          materials/handout-problems.tex
           materials/decidability_and_computability.tex
           materials/handout-decidability_and_computability.tex
           materials/languages_and_grammars.tex

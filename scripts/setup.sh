@@ -1,6 +1,8 @@
 # Setup documents
 
 # Generate a handout
+cp ./materials/problems.tex ./materials/handout-problems.tex
+sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./materials/handout-problems.tex
 cp ./materials/decidability_and_computability.tex ./materials/handout-decidability_and_computability.tex
 sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./materials/handout-decidability_and_computability.tex
 cp ./materials/languages_and_grammars.tex ./materials/handout-languages_and_grammars.tex

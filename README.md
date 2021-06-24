@@ -16,7 +16,9 @@ _I'll continuously update and extend these resources as the course progresses._
 1. Languages and Grammars. [Handout](https://jonhue.github.io/teaching-theo/handout-languages_and_grammars.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/languages_and_grammars.pdf).
 2. Regular Languages. [Handout](https://jonhue.github.io/teaching-theo/handout-regular_languages.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/regular_languages.pdf).
 3. Context-Free Languages. [Handout](https://jonhue.github.io/teaching-theo/handout-context_free_languages.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/context_free_languages.pdf).
-4. Decidability and Computability (in progress). [Handout](https://jonhue.github.io/teaching-theo/handout-decidability_and_computability.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/decidability_and_computability.pdf).
+4. Decidability and Computability. [Handout](https://jonhue.github.io/teaching-theo/handout-decidability_and_computability.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/decidability_and_computability.pdf).
+5. Complexity Theory. _tbc_.
+6. List of Problems. [Handout](https://jonhue.github.io/teaching-theo/handout-problems.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/problems.pdf).
 
 ### Notes
 
@@ -28,4 +30,5 @@ _I'll continuously update and extend these resources as the course progresses._
 6. [Context-Free Languages](https://wbo.ophir.dev/boards/theo-6).
 7. _holiday_
 8. [Pushdown Automata](https://wbo.ophir.dev/boards/theo-8).
-8. [Computability](https://wbo.ophir.dev/boards/theo-9).
+9. [Computability](https://wbo.ophir.dev/boards/theo-9).
+10. [Decidability and Reductions](https://wbo.ophir.dev/boards/theo-10).
