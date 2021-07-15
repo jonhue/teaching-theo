@@ -21,6 +21,8 @@ jobs:
         root_file: |
           materials/problems.tex
           materials/handout-problems.tex
+          materials/complexity_theory.tex
+          materials/handout-complexity_theory.tex
           materials/decidability_and_computability.tex
           materials/handout-decidability_and_computability.tex
           materials/languages_and_grammars.tex

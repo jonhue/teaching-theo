@@ -3,6 +3,8 @@
 # Generate a handout
 cp ./materials/problems.tex ./materials/handout-problems.tex
 sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./materials/handout-problems.tex
+cp ./materials/complexity_theory.tex ./materials/handout-complexity_theory.tex
+sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./materials/handout-complexity_theory.tex
 cp ./materials/decidability_and_computability.tex ./materials/handout-decidability_and_computability.tex
 sed -i "1s/.*/\\\\documentclass\[handout\]\{beamer\}/" ./materials/handout-decidability_and_computability.tex
 cp ./materials/languages_and_grammars.tex ./materials/handout-languages_and_grammars.tex

@@ -1,0 +1,193 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{default}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{default} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+  \setbeamertemplate{footline}[frame number]
+  \setbeamertemplate{itemize items}[circle]
+  \setbeamertemplate{theorems}[numbered]
+  \setbeamercolor*{structure}{bg=white,fg=blue}
+  \setbeamerfont{block title}{size=\normalsize}
+  \setbeamertemplate{frametitle continuation}{}
+}
+
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{idea}[theorem]{Idea}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{aligned-overset}
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{csquotes}
+\usepackage{multicol}
+\usepackage{stmaryrd}
+\usepackage{tabularx}
+
+\renewcommand\tabularxcolumn[1]{m{#1}}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\def\code#1{\texttt{\frenchspacing#1}}
+\def\padding{\vspace{0.5cm}}
+\def\spadding{\vspace{0.25cm}}
+\def\b{\textcolor{blue}}
+\def\r{\textcolor{red}}
+\def\g#1{{\usebeamercolor[fg]{block title example}{#1}}}
+
+% fix for \pause in align
+\makeatletter
+\let\save@measuring@true\measuring@true
+\def\measuring@true{%
+  \save@measuring@true
+  \def\beamer@sortzero##1{\beamer@ifnextcharospec{\beamer@sortzeroread{##1}}{}}%
+  \def\beamer@sortzeroread##1<##2>{}%
+  \def\beamer@finalnospec{}%
+}
+\makeatother
+
+% \usepackage[sorting=ynt,style=alphabetic]{biblatex}
+% \addbibresource{sources.bib}
+
+\title[Theoretical Computer Science]{Theoretical Computer Science \\ Complexity Theory}
+\author{Jonas Hübotter}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Uncomment these lines for an automatically generated outline.
+\begin{frame}[allowframebreaks]{Outline}
+ \tableofcontents[subsubsectionstyle=hide]
+\end{frame}
+% \AtBeginSection[]
+%   {
+%      \begin{frame}
+%      \frametitle{Plan}
+%      \tableofcontents[currentsection, sectionstyle=show/hide, hideothersubsections]
+%      \end{frame}
+%   }
+
+\section{$\mathcal{P}$}
+
+\begin{frame}{$\mathcal{P}$}
+    $\mathcal{P}$ is the class of problems that can be solved by a DTM in polynomial time.\pause
+    \begin{definition}
+        We define \begin{align*}
+            \text{time}_M(w)  = (&\text{\#steps until DTM $M[w]$ halts}) \in \mathbb{N} \cup \{\infty\} \pause\\
+            \text{TIME}(f(n)) = \{&A \subseteq \Sigma^* \mid \exists \text{DTM}\ M.\ A = L(M) \land \forall w \in \Sigma^*.\ \\&\text{time}_M(w) \leq f(|w|)\} \\&\text{for a total function $f : \mathbb{N} \to \mathbb{N}$}
+        \end{align*}\pause
+        Then, the complexity class $\mathcal{P}$ is given as \begin{align*}
+            \mathcal{P} = \bigcup_{p \in \text{polynomial}} \text{TIME}(p(n)) \pause= \bigcup_{k \geq 0} \text{TIME}(\mathcal{O}(n^k))
+        \end{align*} where $\text{TIME}(\mathcal{O}(f)) = \bigcup_{g \in \mathcal{O}(f)} \text{TIME}(g)$.
+    \end{definition}
+\end{frame}
+
+\section{$\mathcal{NP}$}
+
+\begin{frame}{$\mathcal{NP}$}
+    $\mathcal{NP}$ is the class of problems that can be solved by a NTM in polynomial time.\pause
+    \begin{definition}
+        We define \begin{align*}
+            \text{ntime}_M(w) = \begin{cases}
+                (\text{minimal \#steps for NTM $M[w]$ to halt}) & w \in L(M) \\
+                0 & w \not\in L(M)
+            \end{cases}
+        \end{align*}\pause \begin{align*}
+            \text{NTIME}(f(n)) = \{&A \subseteq \Sigma^* \mid \exists \text{NTM}\ M.\ A = L(M) \land \forall w \in \Sigma^*.\ \\&\text{ntime}_M(w) \leq f(|w|)\} \\&\text{for a total function $f : \mathbb{N} \to \mathbb{N}$}
+        \end{align*}
+    \end{definition}
+\end{frame}
+
+\begin{frame}{$\mathcal{NP}$}
+    To simplify the notation, we do not require that the NTM $M$ terminates for inputs $w \not\in L(M)$. This is not a restriction as we can always define the NTM $M'$ which returns $0$ after $p(|w|)$ steps (timeout).\pause
+    \begin{definition}
+        The complexity class $\mathcal{NP}$ is given as \begin{align*}
+            \mathcal{NP} = \bigcup_{p \in \text{polynomial}} \text{NTIME}(p(n)) \pause= \bigcup_{k \geq 0} \text{NTIME}(\mathcal{O}(n^k)).
+        \end{align*}
+    \end{definition}
+\end{frame}
+
+\subsection{Polynomially Bounded Verifier}
+
+\begin{frame}{Polynomially Bounded Verifier}
+    A problem $A$ is in $\mathcal{NP}$ if and only if solutions (which are described by \emph{certificates}) to the problem can be verified in polynomial time by a DTM (a \emph{polynomially bounded verifier}).\pause\par\spadding
+    \begin{block}{Intuition}
+        \begin{itemize}
+            \item A decision problem can be thought of an exploration of the search space consisting of all instances with the goal of finding a solution.\pause
+            \item Problems in $\mathcal{NP}$ may be harder than problems in $\mathcal{P}$ as a NTM is able to pursue exponentially many paths in the search tree.\pause
+            \item However, once the NTM found a path, the length of this path must be polynomial in the size of the input.\pause
+            \item Thus, a DTM must be able to verify that a given path is correct in polynomial time.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Polynomially Bounded Verifier}
+    \begin{definition}
+        Let $M$ be a DTM with $L(M) = \{w\#c \mid w \in \Sigma^*, c \in \Delta^*\}$.\pause
+        \begin{itemize}
+            \item If $w\#c \in L(M)$, $c$ is a \b{certificate} for $w$.\pause
+            \item $M$ is a \b{polynomially bounded verifier} for the language $\{w \in \Sigma^* \mid \exists c \in \Delta^*.\ w\#c \in L(M)\}$ (i.e. the language of all words that have a certificate) if there exists a polynomial $p$ such that $\text{time}_M(w\#c) \leq p(|w|)$.
+        \end{itemize}\pause
+        \r{Especially: $c \leq p(|w|)$, i.e. the size of the certificate must be polynomially bounded by the size of the input.}
+    \end{definition}
+\end{frame}
+
+\subsection{Polynomial Reduction}
+
+\begin{frame}{Polynomial Reduction}
+    \begin{definition}
+        Given problems $A \subseteq \Sigma^*, B \subseteq \Gamma^*$, A is \b{polynomially reducable} to $B$ (denoted $A \leq_p B$) if there exists a total and by a DTM in polynomial time computable function $f : \Sigma^* \to \Gamma^*$ such that \begin{align*}
+            \forall w \in \Sigma^*.\ w \in A \iff f(w) \in B.
+        \end{align*}
+    \end{definition}\pause
+    The complexity classes $\mathcal{P}$ and $\mathcal{NP}$ are closed under polynomial reduction.
+\end{frame}
+
+\subsection{$\mathcal{NP}$-completeness}
+
+\begin{frame}{$\mathcal{NP}$-completeness}
+    \begin{definition}
+        \begin{itemize}
+            \item The language $L$ is \b{$\mathcal{NP}$-hard} if $\forall A \in \mathcal{NP}.\ A \leq_p L$.\pause
+            \item The language $L$ is \b{$\mathcal{NP}$-complete} if $L \in \mathcal{NP}$ and $L$ is $\mathcal{NP}$-hard.
+        \end{itemize}
+    \end{definition}\pause
+    \begin{example}[Proving $\mathcal{NP}$-completeness]\pause
+        \begin{itemize}
+            \item If $A \leq_p B$ and $A$ is $\mathcal{NP}$-hard, then $B$ is $\mathcal{NP}$-hard.\pause
+            \item If $A \leq_p B$ and $B \in \mathcal{NP}$, then $A \in \mathcal{NP}$.\pause
+            \item If there exists a polynomially bounded verifier for $A$, then $A \in \mathcal{NP}$.
+        \end{itemize}
+    \end{example}
+\end{frame}
+
+\section{Approximation Algorithm}
+
+\begin{frame}{Approximation Algorithm}
+    \begin{definition}
+        A \b{$d$-approximation algorithm} ($d \in \mathbb{R}$) for an optimization problem is an algorithm that computes in polynomial time a solution to the problem that is at most $d$ times worse than the optimal solution.
+    \end{definition}
+\end{frame}
+
+% \begin{frame}[allowframebreaks]{References}
+
+% \printbibliography
+
+% \end{frame}
+
+\end{document}

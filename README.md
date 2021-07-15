@@ -17,7 +17,7 @@ _I'll continuously update and extend these resources as the course progresses._
 2. Regular Languages. [Handout](https://jonhue.github.io/teaching-theo/handout-regular_languages.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/regular_languages.pdf).
 3. Context-Free Languages. [Handout](https://jonhue.github.io/teaching-theo/handout-context_free_languages.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/context_free_languages.pdf).
 4. Decidability and Computability. [Handout](https://jonhue.github.io/teaching-theo/handout-decidability_and_computability.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/decidability_and_computability.pdf).
-5. Complexity Theory. _tbc_.
+5. Complexity Theory. [Handout](https://jonhue.github.io/teaching-theo/handout-complexity_theory.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/complexity_theory.pdf).
 6. List of Problems. [Handout](https://jonhue.github.io/teaching-theo/handout-problems.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/problems.pdf).
 
 ### Notes
