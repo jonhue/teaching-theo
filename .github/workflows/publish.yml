@@ -3,44 +3,27 @@ name: Publish
 on:
   push:
     branches:
-    - sources
-
+      - main
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@master
-    - name: Prepare files
-      run: sh ./scripts/setup.sh
-    - name: Compile LaTeX sources
-      uses: xu-cheng/latex-action@2.4.0
-      with:
-        pre_compile: tlmgr update --self && tlmgr update --all
-        root_file: |
-          materials/problems.tex
-          materials/handout-problems.tex
-          materials/complexity_theory.tex
-          materials/handout-complexity_theory.tex
-          materials/decidability_and_computability.tex
-          materials/handout-decidability_and_computability.tex
-          materials/languages_and_grammars.tex
-          materials/handout-languages_and_grammars.tex
-          materials/regular_languages.tex
-          materials/handout-regular_languages.tex
-          materials/context_free_languages.tex
-          materials/handout-context_free_languages.tex
-    - name: Move PDFs
-      run: mv ./*.pdf ./dist
-    - name: Move readme
-      run: cp ./README.md ./dist/index.md
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3.8.0
-      with:
-        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_branch: master
-        publish_dir: ./dist
-        allow_empty_commit: true
-        force_orphan: true
-        enable_jekyll: true
+      - uses: actions/checkout@main
+      - name: Compile and Deploy
+        uses: jonhue/pubtex-action@main
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          files: |
+            materials/problems.tex
+            materials/complexity_theory.tex
+            materials/decidability_and_computability.tex
+            materials/languages_and_grammars.tex
+            materials/regular_languages.tex
+            materials/context_free_languages.tex
+          handouts: |
+            materials/problems.tex
+            materials/complexity_theory.tex
+            materials/decidability_and_computability.tex
+            materials/languages_and_grammars.tex
+            materials/regular_languages.tex
+            materials/context_free_languages.tex

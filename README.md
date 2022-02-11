@@ -1,9 +1,9 @@
 ---
 layout: primer_without_heading
-title: Theoretical Computer Science
+title: Theory of Computation
 ---
 
-# Theoretical Computer Science
+# Theory of Computation
 
 Here you'll find learning resources on the fundamentals of Theoretical Computer Science.
 
@@ -13,12 +13,12 @@ _I'll continuously update and extend these resources as the course progresses._
 
 ### Material
 
-1. Languages and Grammars. [Handout](https://jonhue.github.io/teaching-theo/handout-languages_and_grammars.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/languages_and_grammars.pdf).
-2. Regular Languages. [Handout](https://jonhue.github.io/teaching-theo/handout-regular_languages.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/regular_languages.pdf).
-3. Context-Free Languages. [Handout](https://jonhue.github.io/teaching-theo/handout-context_free_languages.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/context_free_languages.pdf).
-4. Decidability and Computability. [Handout](https://jonhue.github.io/teaching-theo/handout-decidability_and_computability.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/decidability_and_computability.pdf).
-5. Complexity Theory. [Handout](https://jonhue.github.io/teaching-theo/handout-complexity_theory.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/complexity_theory.pdf).
-6. List of Problems. [Handout](https://jonhue.github.io/teaching-theo/handout-problems.pdf). [Slides](https://jonhue.github.io/teaching-dwt-rev/problems.pdf).
+1. Languages and Grammars. [Handout](https://jonhue.github.io/teaching-theo/languages_and_grammars_handout.pdf). [*Slides*](https://jonhue.github.io/teaching-dwt-rev/languages_and_grammars.pdf).
+2. Regular Languages. [Handout](https://jonhue.github.io/teaching-theo/regular_languages_handout.pdf). [*Slides*](https://jonhue.github.io/teaching-dwt-rev/regular_languages.pdf).
+3. Context-Free Languages. [Handout](https://jonhue.github.io/teaching-theo/context_free_languages_handout.pdf). [*Slides*](https://jonhue.github.io/teaching-dwt-rev/context_free_languages.pdf).
+4. Decidability and Computability. [Handout](https://jonhue.github.io/teaching-theo/decidability_and_computability_handout.pdf). [*Slides*](https://jonhue.github.io/teaching-dwt-rev/decidability_and_computability.pdf).
+5. Complexity Theory. [Handout](https://jonhue.github.io/teaching-theo/complexity_theory_handout.pdf). [*Slides*](https://jonhue.github.io/teaching-dwt-rev/complexity_theory.pdf).
+6. List of Problems. [Handout](https://jonhue.github.io/teaching-theo/problems_handout.pdf). [*Slides*](https://jonhue.github.io/teaching-dwt-rev/problems.pdf).
 
 ### Notes
 
