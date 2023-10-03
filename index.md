@@ -20,7 +20,7 @@ _I'll continuously update and extend these resources as the course progresses._
 5. Complexity Theory. [Handout](https://jonhue.github.io/teaching-theo/complexity_theory_handout.pdf). [*Slides*](https://jonhue.github.io/teaching-theo/complexity_theory.pdf).
 6. List of Problems. [Handout](https://jonhue.github.io/teaching-theo/problems_handout.pdf). [*Slides*](https://jonhue.github.io/teaching-theo/problems.pdf).
 
-### Notes
+<!-- ### Notes
 
 1. [Finite Automata and Grammar Construction](https://wbo.ophir.dev/boards/theo-1).
 2. [Regular Languages](https://wbo.ophir.dev/boards/theo-2).
@@ -31,4 +31,4 @@ _I'll continuously update and extend these resources as the course progresses._
 7. _holiday_
 8. [Pushdown Automata](https://wbo.ophir.dev/boards/theo-8).
 9. [Computability](https://wbo.ophir.dev/boards/theo-9).
-10. [Decidability and Reductions](https://wbo.ophir.dev/boards/theo-10).
+10. [Decidability and Reductions](https://wbo.ophir.dev/boards/theo-10). -->
